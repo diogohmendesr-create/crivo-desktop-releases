@@ -89,6 +89,11 @@ Se preferir ver a página da versão (ou se o endereço acima não baixar nada):
      compactação — o procedimento oficial é o botão acima.
 3. O instalador roda sem pedir senha de administrador e cria "Crivo Notarial
    Desktop" no menu Iniciar.
+4. **Instale somente o arquivo baixado pelos caminhos da seção 2** — nunca um
+   instalador recebido por e-mail, WhatsApp ou pendrive, mesmo que pareça
+   vir da Crivo. Enquanto não há certificado de assinatura, o que garante a
+   origem é o endereço de download (e o código SHA-256 publicado na página
+   da versão, que o TI pode conferir).
 
 ## 4. Primeira abertura
 
@@ -222,8 +227,12 @@ ato real.
    **data de nascimento**; TJ-SP pede **nome completo**, **RG** (opcional) e
    **gênero**. O botão **"Emitir certidões selecionadas"** só habilita com
    tudo preenchido.
-2. Use um **CPF real** (por exemplo de um colaborador que autorize o teste) —
-   os portais conferem o CPF na Receita; CPF inventado falha.
+2. Use o **seu próprio CPF** (de quem está fazendo o teste) — os portais
+   conferem o CPF na Receita; CPF inventado falha. Não use o CPF de outra
+   pessoa sem autorização dela por escrito, guardada pelo cartório: a
+   certidão emitida é real, fica no computador e entra nos backups. Ao
+   terminar o teste, faça um backup novo (as certidões de teste ficam no
+   Acervo como qualquer outra).
 3. Depois de "Emitir", a janela fecha, aparece "1 certidão(ões)
    enfileirada(s)" e a certidão entra no painel agrupada pelo CPF. O status
    passa por **"Aguardando Companion"** (na fila — o nome é herdado de outro
@@ -281,26 +290,8 @@ restaure o backup pela tela Manutenção.
 
 **O que mandar para o suporte da Crivo:** versão do app, o que estava fazendo,
 a mensagem exata da tela e o arquivo de log em
-`%LOCALAPPDATA%\com.crivonotarial.desktop\logs\` (o log não contém dados
-pessoais — é seguro enviar). Nunca mande o backup nem a senha de backup.
+`%LOCALAPPDATA%\com.crivonotarial.desktop\logs\`, pelo e-mail de suporte da
+Crivo. O log não contém CPF nem dados das pessoas qualificadas (pode conter
+o nome do usuário Windows nos caminhos de pasta). Nunca mande o backup nem
+a senha de backup.
 
-## Para o suporte Crivo (referência técnica)
-
-- Dados: `%LOCALAPPDATA%\CrivoDesktop` (`pgdata/`, `storage/`, `secrets.json`,
-  `session.json`, `backup-kek.bin`, `postgrest.conf`). Logs do app (inclui o
-  stdout do gateway, sem PII): `%LOCALAPPDATA%\com.crivonotarial.desktop\logs\`.
-- Serviço local: `crivo-companion-worker gateway --port=54321` (Postgres
-  embarcado + PostgREST, loopback). Saúde: `GET http://127.0.0.1:54321/gateway/health`.
-- Licença: online+licenciada = completo; online sem licença = somente-leitura;
-  offline ≤ 7 dias desde a última verificação licenciada = somente-leitura;
-  além disso = exige novo login. Revalidação a cada 12 h.
-- Backup: `pg_dump` + `storage/` em `.crivobak` (AES-256-GCM; KEK por scrypt da
-  senha do Titular; sem escrow — ADR-0071). `secrets.json`/`session.json` nunca
-  entram no pacote. Restore recusa backup de app mais novo (`RESTORE_SCHEMA_AHEAD`)
-  e com emissão em voo (`RESTORE_BUSY`).
-- Emissão: 8/8 portais locais via Chrome do cartório (TJ-SP com poll local
-  `tjsp_poll` a cada 6 h — ADR-0083). Captcha/classificação via edge functions
-  da nuvem; o payload com dados pessoais nunca sai da máquina.
-- Atualização: canal `desktop` (`crivo-desktop-releases`, `latest.json`
-  assinado com minisign); confirmação obrigatória + checagem de backup < 24 h.
-- Instalador sem Authenticode até o certificado OV (depende do CNPJ da Crivo).
