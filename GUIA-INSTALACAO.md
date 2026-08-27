@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.8** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.9** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -64,7 +64,7 @@ Se preferir ver a página da versão (ou se o endereço acima não baixar nada):
 
 1. Abra **https://github.com/diogohmendesr-create/crivo-desktop-releases/releases/latest**
    É uma página do GitHub (onde a Crivo publica as versões): no alto, o título
-   "Crivo Notarial Desktop 0.1.8 (Windows)" e um parágrafo curto. **O download
+   com o nome do aplicativo e a versão mais recente, e um parágrafo curto. **O download
    fica na caixa "Assets"**, logo abaixo desse texto — se a caixa estiver
    recolhida, clique em "Assets" para abrir.
 2. Na caixa "Assets" aparecem quatro itens. Clique só em
@@ -117,7 +117,7 @@ Mensagens possíveis nessa tela e o que significam:
 | "A porta 54321 está em uso por outro programa. Feche outros aplicativos Crivo (ou o Supabase CLI) e tente novamente." | Há outro Crivo Desktop aberto (talvez em outro usuário Windows) ou um programa técnico usando a mesma porta. Feche-o e clique em "Tentar novamente". |
 | "Encerrando instância anterior…" | Ficou um serviço local de uma abertura anterior (o app foi fechado à força ou o computador desligou). Normal: o app o encerra e segue sozinho em poucos segundos. |
 | "Aguardando a instância anterior finalizar um trabalho em curso…" | O app anterior ainda está terminando uma emissão. Espere; ele substitui sozinho. |
-| "O serviço local não respondeu a tempo. Tente novamente ou contate o suporte." | Geralmente antivírus segurando o `postgres.exe` na primeira execução. Tente de novo; se repetir, veja "Se algo falhar". |
+| "O serviço local não respondeu a tempo. Tente novamente ou contate o suporte." | Geralmente antivírus segurando o `postgres.exe` na primeira execução. Tente de novo. **Se repetir, e principalmente se o nome da conta do Windows tiver acento (José, Antônio):** baixe a versão mais recente e instale por cima, sem desinstalar e sem apagar `%LOCALAPPDATA%\CrivoDesktop`. Depois veja "Se algo falhar". |
 | "Instalação incompleta — reinstale o Crivo Notarial Desktop." | Arquivos do instalador faltando. Baixe e instale novamente. |
 
 **Fechar a janela não fecha o app.** O "X" da janela só a esconde: o Crivo
@@ -275,7 +275,7 @@ novamente" sem perder os dados.
 | Sintoma | Causa provável | O que fazer |
 |---|---|---|
 | Tela azul do Windows no instalador | SmartScreen sem certificado | "Mais informações" → "Executar assim mesmo" (seção 3). |
-| Primeira abertura fica em "Preparando o banco de dados local…" e termina em "não respondeu a tempo" | Antivírus bloqueando `postgres.exe` ou a pasta `%LOCALAPPDATA%\CrivoDesktop` | TI adiciona exceção para a pasta do programa e para `%LOCALAPPDATA%\CrivoDesktop`; abra o app de novo. |
+| Primeira abertura fica em "Preparando o banco de dados local…" e termina em "não respondeu a tempo" | Antivírus bloqueando `postgres.exe` ou a pasta `%LOCALAPPDATA%\CrivoDesktop` — **ou nome de conta do Windows com acento** (José, Antônio), corrigido a partir da versão 0.1.9 | TI adiciona exceção para a pasta do programa e para `%LOCALAPPDATA%\CrivoDesktop`; abra o app de novo. Se o nome da conta tem acento, **baixe a versão mais recente e instale por cima** — a atualização automática não alcança quem nunca conseguiu abrir o app. |
 | "A porta 54321 está em uso por outro programa" | Outro Crivo Desktop aberto (outro usuário Windows) ou programa técnico na porta | Feche o outro programa; "Tentar novamente". |
 | O app foi fechado à força / o computador desligou no meio | — | Basta abrir de novo: o app substitui sozinho o serviço que ficou para trás. |
 | "chrome.exe não encontrado — instale o Google Chrome no computador" | Chrome ausente ou instalado fora do local padrão | Instale o Google Chrome (instalação padrão). |
@@ -291,7 +291,7 @@ restaure o backup pela tela Manutenção.
 **O que mandar para o suporte da Crivo:** versão do app, o que estava fazendo,
 a mensagem exata da tela e o arquivo de log em
 `%LOCALAPPDATA%\com.crivonotarial.desktop\logs\`, pelo e-mail de suporte da
-Crivo. O log não contém CPF nem dados das pessoas qualificadas (pode conter
-o nome do usuário Windows nos caminhos de pasta). Nunca mande o backup nem
-a senha de backup.
+Crivo. O log não contém CPF, nome de pessoa qualificada nem conteúdo de
+documento. Pode conter caminhos de pasta do Windows — e um caminho carrega o
+nome da sua conta de usuário. Nunca mande o backup nem a senha de backup.
 
