@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.12** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.13** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -260,17 +260,60 @@ temporárias (portal fora do ar, instabilidade) são tentadas de novo sozinhas;
 falhas definitivas (dado inválido, portal recusou) pedem correção do dado e
 nova emissão.
 
-## 8. Atualizações
+## 8. Minuta de escritura com IA (opcional — Titular)
 
-O Desktop **nunca atualiza sozinho**. Quando houver versão nova, ao abrir o app
-ele pergunta antes de instalar. Se não houver backup nas últimas 24 horas, a
-pergunta é: *"Não há backup recente. Recomendamos fazer um backup pela tela
-Manutenção antes de atualizar. Instalar mesmo assim?"* — a recomendação é
-responder **Não**, fazer o backup pela tela Manutenção e só então atualizar.
+O módulo de escritura (a aba **Escritura** nas minutas com tipo de ato
+"Escritura") e a IA que ajuda a redigir e conferir o texto são **configurações
+deste computador**, não da conta na nuvem. Ligar o módulo no site da Crivo
+**não** liga no Desktop, nem o contrário — a sincronização com a nuvem copia
+só o nome e o CNPJ da serventia. Cada computador do cartório é configurado
+separadamente, nos dois passos abaixo.
+
+1. **Ligar o módulo (Titular).** Barra lateral **GOVERNANÇA → Configurações**,
+   aba **"Geral"**, card **"Minuta de escritura (opcional)"** → botão
+   **"Ativar módulo Escritura"** (o botão passa a "Ativado — desativar").
+   Vale para todos os usuários deste computador. Sem isso a aba Escritura não
+   aparece e os botões de IA respondem que o módulo está desativado.
+2. **Conectar a conta OpenAI (Titular, um vínculo por computador).** Mesma
+   tela de Configurações, última aba **"Crivo Desktop"** (a tela "Manutenção —
+   Crivo Desktop"), card **"Conta OpenAI (IA local)"** → **"Conectar conta
+   OpenAI"**. Aparece um código; clique em **"Abrir página de ativação"**,
+   entre com a assinatura ChatGPT **do cartório** e digite o código. O estado
+   passa de "Aguardando ativação" para **"Conta conectada"** sozinho.
+   - O vínculo fica **neste computador, na conta do Windows em uso**,
+     protegido pelo Windows. **Não entra no backup e não vai para a nuvem** —
+     computador novo, disco restaurado ou outra conta do Windows = conectar de
+     novo (é só repetir este passo).
+   - **"Desconectar"** apaga o vínculo deste computador; a assinatura ChatGPT
+     do cartório não é alterada.
+
+**O que a IA faz no Desktop.** Na aba Escritura, cada seção tem **"Ajustar com
+IA"** (reescreve o trecho conforme a instrução do escrevente) e **"Conferir com
+IA"** (aponta exigências e alertas citando as normas do Crivo). O texto da
+seção vai para a OpenAI **pela conta do cartório**, nunca para a Crivo. Sem
+conta conectada, esses dois botões avisam que não há provedor de IA e mostram
+o botão **"Conectar conta OpenAI"**, que leva direto à aba "Crivo Desktop" do
+passo 2; o resto do módulo (gerar a minuta, lacunas `[[FALTA]]`, modelos,
+exportação) funciona normalmente sem IA.
+
+## 9. Atualizações
+
+O Desktop **nunca instala uma atualização sem perguntar**. Quando houver
+versão nova, um aviso amarelo aparece no topo do app com o botão **"Reiniciar
+e atualizar"**. Ao clicar, o app confirma que vai reiniciar (trabalhos em
+andamento — emissões, backup — terminam antes; salve o que estiver
+editando), fecha e reabre sozinho, e aí pergunta se pode instalar. Se não
+houver backup nas últimas 24 horas, a pergunta é: *"Não há backup recente.
+Recomendamos fazer um backup pela tela Manutenção antes de atualizar. Instalar
+mesmo assim?"* — a recomendação é responder **Não**, fazer o backup pela tela
+Manutenção e só então atualizar (o aviso continua lá; basta clicar de novo).
 Durante a atualização o app fecha e reabre; se der erro, ele mostra "Tentar
-novamente" sem perder os dados.
+novamente" sem perder os dados. Sair e abrir o app à mão continua
+funcionando: a pergunta aparece na abertura — mas **sair é pelo ícone da
+bandeja (botão direito → Sair)**; o X da janela só a esconde, e reabrir pela
+bandeja volta à mesma sessão, sem passar pela verificação de versão.
 
-## 9. Se algo falhar
+## 10. Se algo falhar
 
 | Sintoma | Causa provável | O que fazer |
 |---|---|---|
