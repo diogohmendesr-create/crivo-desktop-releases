@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.15** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.16** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -295,6 +295,36 @@ conta conectada, esses dois botões avisam que não há provedor de IA e mostram
 o botão **"Conectar conta OpenAI"**, que leva direto à aba "Crivo Desktop" do
 passo 2; o resto do módulo (gerar a minuta, lacunas `[[FALTA]]`, modelos,
 exportação) funciona normalmente sem IA.
+
+## 8.1 Conector para o Claude Desktop (opcional — Titular)
+
+Se o cartório usa o **Claude Desktop** (aplicativo da Anthropic) para redigir,
+dá para ligar os dois: o Claude passa a consultar as qualificações e as
+certidões do Crivo Desktop e a emitir só as que faltam, sempre pedindo a sua
+aprovação antes de cada chamada. Tudo fica nesta máquina; nada vai para a
+nuvem por causa do conector.
+
+1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
+   Desktop"** → **"Baixar conector (.mcpb)"**. Guarde o arquivo na pasta
+   Downloads.
+2. Ainda nessa tela, clique em **"Gerar chave de pareamento"** e copie a chave
+   (ela aparece uma única vez — se perder, gere outra).
+3. No Claude Desktop: **Configurações** (Ctrl+,) → **Extensões** →
+   **"Configurações avançadas"** → **"Instalar extensão"** → escolha o arquivo
+   baixado (ou arraste o arquivo para a tela de Extensões). O duplo clique no
+   arquivo **não** funciona na versão da Microsoft Store.
+4. Confira o nome **"Crivo Notarial Desktop"** e a lista de ferramentas, clique
+   em **"Instalar"** e confirme.
+5. Cole a chave no campo **"Chave de pareamento do Crivo Desktop"** e clique em
+   **"Salvar"**. A extensão é instalada **desligada**: ligue o botão ao lado de
+   "Desabilitado" — deve mudar para **"Ativado"**.
+6. Abra uma conversa nova e peça: *"verifique a conexão com o Crivo"*. O Claude
+   pede permissão para usar a ferramenta — escolha **"Sempre permitir"** para
+   as consultas. A resposta deve mostrar `pareamento: paired`.
+
+A chave só funciona neste computador, com o Crivo Desktop **aberto e logado
+com a conta do Titular** que a gerou. Para desfazer, clique em **"Revogar"** na
+mesma tela do Crivo Desktop (o Claude passa a receber "não pareado").
 
 ## 9. Atualizações
 
