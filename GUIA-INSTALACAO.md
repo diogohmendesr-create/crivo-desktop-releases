@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.16** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.17** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -237,17 +237,24 @@ ato real.
    enfileirada(s)" e a certidão entra no painel agrupada pelo CPF. O status
    passa por **"Aguardando Companion"** (na fila — o nome é herdado de outro
    produto da Crivo; aqui significa só "na fila") → **"Processando"** →
-   **"Emitida"**, com o botão **"Baixar PDF"**.
+   **"Emitida"**, com o botão **"Baixar PDF"**. O PDF é salvo na pasta
+   **Downloads** do Windows (aparece o balão de download no canto superior
+   direito do app) — o mesmo vale para "Baixar" no Acervo e nos alertas.
 4. **Primeiro teste: CNDT (PF).** Não usa o Chrome (é direto com o TST) —
    cerca de **15 segundos**.
-5. **Segundo teste: Receita Federal (PF).** Uma janela do **Google Chrome vai
-   abrir sozinha**, preencher o portal e **fechar sozinha** ao terminar —
-   cerca de **1 minuto e meio**. **Não feche nem mexa nessa janela.** Se a
+5. **Segundo teste: Receita Federal (PF).** O app usa o **Google Chrome em
+   segundo plano** para preencher o portal — cerca de **1 minuto e meio**.
+   A partir da versão 0.1.17, nenhuma janela fica na tela (no máximo uma piscada
+   rápida no começo; nas versões anteriores a janela do Chrome aparece): pode
+   continuar trabalhando normalmente e acompanhe pelo status na tela do Crivo.
+   Em alguns computadores — quando o antivírus ou uma política da rede bloqueia
+   o recurso de ocultar — a janela do Chrome **aparece, como sempre apareceu**:
+   nesse caso não feche nem mexa nela; a emissão funciona do mesmo jeito. Se a
    pessoa já tiver uma certidão da Receita ainda válida, o portal devolve
    essa mesma certidão (com a data de emissão original) — é o comportamento
    da Receita, não um erro.
-6. **TJ-SP (Justiça Estadual) é diferente:** o Chrome abre, faz o pedido no
-   e-SAJ (cerca de 1 minuto) e a certidão fica como **"Aguardando e-SAJ"**;
+6. **TJ-SP (Justiça Estadual) é diferente:** o app faz o pedido no e-SAJ em
+   segundo plano (cerca de 1 minuto) e a certidão fica como **"Aguardando e-SAJ"**;
    o tribunal gera o documento depois de um tempo e o app volta lá sozinho
    para buscar o PDF — a cada 6 horas enquanto estiver rodando (e ao abrir,
    se já passaram 6 horas desde a última verificação). Em geral o pedido fica
@@ -300,9 +307,11 @@ exportação) funciona normalmente sem IA.
 
 Se o cartório usa o **Claude Desktop** (aplicativo da Anthropic) para redigir,
 dá para ligar os dois: o Claude passa a consultar as qualificações e as
-certidões do Crivo Desktop e a emitir só as que faltam, sempre pedindo a sua
-aprovação antes de cada chamada. Tudo fica nesta máquina; nada vai para a
-nuvem por causa do conector.
+certidões do Crivo Desktop e a emitir só as que faltam. Tudo fica nesta
+máquina; nada vai para a nuvem da Crivo por causa do conector — o que o Claude
+lê vai para a Anthropic pela conta Claude do cartório (ver os Termos de Uso,
+seção 4-B, em www.crivonotarial.com.br/termos). Passos conferidos no Claude
+Desktop 2.2553.1 (Microsoft Store) em 18/09/2026.
 
 1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
    Desktop"** → **"Baixar conector (.mcpb)"**. Guarde o arquivo na pasta
@@ -311,20 +320,47 @@ nuvem por causa do conector.
    (ela aparece uma única vez — se perder, gere outra).
 3. No Claude Desktop: **Configurações** (Ctrl+,) → **Extensões** →
    **"Configurações avançadas"** → **"Instalar extensão"** → escolha o arquivo
-   baixado (ou arraste o arquivo para a tela de Extensões). O duplo clique no
+   baixado (ou arraste o arquivo para a tela de Extensões, onde está escrito
+   "Arraste arquivos .MCPB ou .DXT aqui para instalar"). O duplo clique no
    arquivo **não** funciona na versão da Microsoft Store.
 4. Confira o nome **"Crivo Notarial Desktop"** e a lista de ferramentas, clique
-   em **"Instalar"** e confirme.
+   em **"Instalar"** e confirme a caixa "Deseja instalar Crivo Notarial
+   Desktop?".
 5. Cole a chave no campo **"Chave de pareamento do Crivo Desktop"** e clique em
-   **"Salvar"**. A extensão é instalada **desligada**: ligue o botão ao lado de
-   "Desabilitado" — deve mudar para **"Ativado"**.
-6. Abra uma conversa nova e peça: *"verifique a conexão com o Crivo"*. O Claude
-   pede permissão para usar a ferramenta — escolha **"Sempre permitir"** para
-   as consultas. A resposta deve mostrar `pareamento: paired`.
+   **"Salvar"**. A extensão é instalada **desligada**: no topo da tela da
+   extensão, ligue o botão ao lado de "Desabilitado" — deve mudar para
+   **"Ativado"**. (Para voltar a essa tela depois: Extensões → "Crivo Notarial
+   Desktop" → **"Configurar"**.)
+6. Na mesma tela, em **"Permissões de ferramentas"**, o Claude Desktop separa
+   as ferramentas em dois grupos. Em **"Ferramentas somente leitura"** (8:
+   estado do Crivo Desktop, buscar pessoa, qualificação completa, listar
+   minutas, detalhe de uma minuta, listar certidões, ler uma certidão,
+   acompanhar emissões) escolha **"Sempre permitir"** para não confirmar cada
+   consulta. Em **"Ferramentas de gravação/exclusão"** há só **"Emitir
+   certidões (consome créditos)"**: deixe em **"Requer aprovação"**, que é o
+   padrão — assim cada emissão pede o seu OK e nenhum crédito é gasto sem você
+   ver. Nunca marque "Sempre permitir" nessa.
+7. Abra uma conversa nova e peça: *"verifique a conexão com o Crivo"*. Se
+   você não mexeu nas permissões, o Claude pede autorização na hora ("Sempre
+   permitir" vale para as consultas). A resposta deve mostrar `pareamento:
+   paired` e a sessão `ok`.
 
-A chave só funciona neste computador, com o Crivo Desktop **aberto e logado
-com a conta do Titular** que a gerou. Para desfazer, clique em **"Revogar"** na
-mesma tela do Crivo Desktop (o Claude passa a receber "não pareado").
+**A sessão precisa estar ativa.** A chave só funciona neste computador, com o
+Crivo Desktop **aberto e logado com a conta do Titular** que a gerou. Por
+segurança, o Crivo Desktop encerra a sessão depois de **8 horas sem ninguém
+mexer nele** (as chamadas do Claude não contam como uso): na manhã seguinte,
+ou depois de um fim de semana, o Claude responde "Abra o Crivo Desktop e entre
+com a conta que criou o pareamento" — basta entrar de novo no Crivo Desktop e
+repetir o pedido. Quedas curtas de internet não derrubam a sessão.
+
+**Atualizar ou desfazer.** Quando o Crivo Desktop atualizar (seção 9), baixe o
+conector de novo pela tela de Manutenção e instale por cima pelo mesmo caminho
+do passo 3: o Claude Desktop reconhece como "Atualizar" e mantém a chave (só
+cole uma chave nova se você tiver gerado outra no Crivo Desktop); confira as
+permissões do passo 6 depois, porque o Claude pode voltar a pedir autorização.
+Para desfazer a integração, clique em **"Revogar"** na tela do Crivo Desktop (o
+Claude passa a receber "não pareado"); para remover a extensão, no Claude
+Desktop use **"…" → "Desinstalar"** ao lado dela.
 
 ## 9. Atualizações
 
@@ -354,6 +390,8 @@ bandeja volta à mesma sessão, sem passar pela verificação de versão.
 | "O serviço local encerrou inesperadamente" logo depois de uma **restauração de backup interrompida** (app fechado ou computador desligado no meio) | O app se recusa a criar um banco novo por cima dos seus dados: eles estão na pasta `%LOCALAPPDATA%\CrivoDesktop\pgdata.pre-restore-<data>` | Chame o suporte. A recuperação é renomear essa pasta de volta para `pgdata` (e `storage.pre-restore-<data>` para `storage`, se existir) e abrir o app — nada foi perdido. |
 | "Este Crivo Desktop está vinculado a outra serventia." ao entrar | Este computador já foi usado por uma conta de OUTRO cartório: o Desktop guarda os dados de um cartório só e recusa contas de outros | Entre com uma conta do cartório vinculado. Se o computador mudou de cartório de verdade, chame o suporte — a desvinculação apaga `%LOCALAPPDATA%\CrivoDesktop\org-binding.json` (e o banco local, que é do cartório anterior). |
 | "chrome.exe não encontrado — instale o Google Chrome no computador" | Chrome ausente (a partir da versão 0.1.11 o Desktop encontra o Chrome instalado por máquina em `Program Files` E o instalado só para o usuário, em `%LOCALAPPDATA%`) | Instale o Google Chrome; qualquer uma das duas formas de instalação serve. |
+| A janela do Google Chrome **aparece na tela** durante a emissão | O app oculta essa janela, mas só quando o computador deixa: antivírus ou política da rede bloqueando o PowerShell impedem, e o app então abre a janela como sempre abriu — a emissão não é afetada | Não feche nem mexa na janela. Se quiser a janela oculta, a TI libera o `powershell.exe` para o Crivo; o app confere de novo sozinho em até 7 dias (o suporte pode antecipar). |
+| Cliquei em **"Baixar PDF"** (ou "Baixar" no Acervo) e nada acontece | Versão anterior à **0.1.17** — o app não conseguia abrir o download | Atualize pelo aviso de versão nova ("Reiniciar e atualizar"). Até lá, no painel de certidões o botão **"Baixar lote (.zip)"** funciona. |
 | Certidão falhou com mensagem de portal | Portal instável ou dado inválido | Leia a mensagem no painel; temporária = espere a nova tentativa; definitiva = corrija o dado e emita de novo. |
 | "modo somente-leitura" inesperado | Sem internet há dias, ou assinatura inativa | Reconecte, entre de novo; confira a assinatura com a Crivo. |
 | Perdeu a senha de backup | — | Os backups antigos **não** têm recuperação. Defina uma senha nova na tela Manutenção e faça um backup novo imediatamente. |
