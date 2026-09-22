@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.17** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.18** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -46,7 +46,9 @@ e a restauração, abaixo, são o caminho para mover dados de uma máquina a out
 
 **Pelo Crivo na internet** — entre em www.crivonotarial.com.br, vá em
 **Configurações → aba "Crivo Desktop"** e clique em **"Baixar instalador"**
-(o botão ao lado, "Guia de instalação", abre este guia).
+(o botão ao lado, "Guia de instalação", abre este guia). Dentro do Crivo
+Desktop esses dois botões abrem o navegador padrão do Windows (a partir da
+versão 0.1.18); o download cai na pasta Downloads.
 
 **Ou pelo caminho direto** — abra este endereço no navegador e o download do
 instalador da versão mais recente começa sozinho (o arquivo
@@ -314,8 +316,9 @@ seção 4-B, em www.crivonotarial.com.br/termos). Passos conferidos no Claude
 Desktop 2.2553.1 (Microsoft Store) em 18/09/2026.
 
 1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
-   Desktop"** → **"Baixar conector (.mcpb)"**. Guarde o arquivo na pasta
-   Downloads.
+   Desktop"** → **"Baixar conector (.mcpb)"**. O navegador padrão do Windows
+   abre e o arquivo vai para a pasta Downloads (a partir da versão 0.1.18;
+   nas anteriores o botão não fazia nada — atualize o app).
 2. Ainda nessa tela, clique em **"Gerar chave de pareamento"** e copie a chave
    (ela aparece uma única vez — se perder, gere outra).
 3. No Claude Desktop: **Configurações** (Ctrl+,) → **Extensões** →
