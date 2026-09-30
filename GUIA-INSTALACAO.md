@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.24** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.25** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -222,8 +222,9 @@ restaurar.
 Objetivo: provar que fila, Chrome e nuvem estão funcionando antes de usar em
 ato real.
 
-1. Barra lateral **Certidões** → tela **Painel** → botão **"Emitir avulsa"**
-   (canto superior direito). Abre uma janela com o formulário: **Pessoa
+1. Barra lateral **Certidões** → aba **Painel** (é a que abre; ao lado ficam
+   as abas **Acervo** e **Alertas**) → botão **"Emitir avulsa"** (canto
+   superior direito). Abre uma janela com o formulário: **Pessoa
    Física**, o **CPF** e a lista **"Tipos de certidão"** (marque só o que for
    testar). Conforme o tipo, aparecem campos extras: Receita Federal pede a
    **data de nascimento**; TJ-SP pede **nome completo**, **RG** (opcional) e
@@ -233,15 +234,15 @@ ato real.
    conferem o CPF na Receita; CPF inventado falha. Não use o CPF de outra
    pessoa sem autorização dela por escrito, guardada pelo cartório: a
    certidão emitida é real, fica no computador e entra nos backups. Ao
-   terminar o teste, faça um backup novo (as certidões de teste ficam no
-   Acervo como qualquer outra).
+   terminar o teste, faça um backup novo (as certidões de teste ficam na aba
+   **Acervo** de Certidões como qualquer outra).
 3. Depois de "Emitir", a janela fecha, aparece "1 certidão(ões)
    enfileirada(s)" e a certidão entra no painel agrupada pelo CPF. O status
    passa por **"Aguardando Companion"** (na fila — o nome é herdado de outro
    produto da Crivo; aqui significa só "na fila") → **"Processando"** →
    **"Emitida"**, com o botão **"Baixar PDF"**. O PDF é salvo na pasta
    **Downloads** do Windows (aparece o balão de download no canto superior
-   direito do app) — o mesmo vale para "Baixar" no Acervo e nos alertas.
+   direito do app) — o mesmo vale para "Baixar" nas abas Acervo e Alertas.
 4. **Primeiro teste: CNDT (PF).** Não usa o Chrome (é direto com o TST) —
    cerca de **15 segundos**.
 5. **Segundo teste: Receita Federal (PF).** O app usa o **Google Chrome em
@@ -394,7 +395,7 @@ bandeja volta à mesma sessão, sem passar pela verificação de versão.
 | "Este Crivo Desktop está vinculado a outra serventia." ao entrar | Este computador já foi usado por uma conta de OUTRO cartório: o Desktop guarda os dados de um cartório só e recusa contas de outros | Entre com uma conta do cartório vinculado. Se o computador mudou de cartório de verdade, chame o suporte — a desvinculação apaga `%LOCALAPPDATA%\CrivoDesktop\org-binding.json` (e o banco local, que é do cartório anterior). |
 | "chrome.exe não encontrado — instale o Google Chrome no computador" | Chrome ausente (a partir da versão 0.1.11 o Desktop encontra o Chrome instalado por máquina em `Program Files` E o instalado só para o usuário, em `%LOCALAPPDATA%`) | Instale o Google Chrome; qualquer uma das duas formas de instalação serve. |
 | A janela do Google Chrome **aparece na tela** durante a emissão | O app oculta essa janela, mas só quando o computador deixa: antivírus ou política da rede bloqueando o PowerShell impedem, e o app então abre a janela como sempre abriu — a emissão não é afetada | Não feche nem mexa na janela. Se quiser a janela oculta, a TI libera o `powershell.exe` para o Crivo; o app confere de novo sozinho em até 7 dias (o suporte pode antecipar). |
-| Cliquei em **"Baixar PDF"** (ou "Baixar" no Acervo) e nada acontece | Versão anterior à **0.1.17** — o app não conseguia abrir o download | Atualize pelo aviso de versão nova ("Reiniciar e atualizar"). Até lá, no painel de certidões o botão **"Baixar lote (.zip)"** funciona. |
+| Cliquei em **"Baixar PDF"** (ou "Baixar" na aba Acervo) e nada acontece | Versão anterior à **0.1.17** — o app não conseguia abrir o download | Atualize pelo aviso de versão nova ("Reiniciar e atualizar"). Até lá, na aba Painel de Certidões o botão **"Baixar lote (.zip)"** funciona. |
 | Certidão falhou com mensagem de portal | Portal instável ou dado inválido | Leia a mensagem no painel; temporária = espere a nova tentativa; definitiva = corrija o dado e emita de novo. |
 | "modo somente-leitura" inesperado | Sem internet há dias, ou assinatura inativa | Reconecte, entre de novo; confira a assinatura com a Crivo. |
 | Perdeu a senha de backup | — | Os backups antigos **não** têm recuperação. Defina uma senha nova na tela Manutenção e faça um backup novo imediatamente. |
