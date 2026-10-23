@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.38** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.39** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -406,9 +406,21 @@ depois de um backup bem-sucedido, feche o app e apague a pasta
 restaure o backup pela tela Manutenção.
 
 **O que mandar para o suporte da Crivo:** versão do app, o que estava fazendo,
-a mensagem exata da tela e o arquivo de log em
-`%LOCALAPPDATA%\com.crivonotarial.desktop\logs\`, pelo e-mail de suporte da
-Crivo. O log não contém CPF, nome de pessoa qualificada nem conteúdo de
-documento. Pode conter caminhos de pasta do Windows — e um caminho carrega o
-nome da sua conta de usuário. Nunca mande o backup nem a senha de backup.
+a mensagem exata da tela e o log do aplicativo. Nunca mande o backup nem a
+senha de backup.
+
+Quando a tela de abertura mostra um erro, há dois botões abaixo de "Tentar
+novamente":
+
+- **"Copiar relatório para o suporte":** copia a versão do app e o trecho final
+  do log. Cole na conversa ou no e-mail com o suporte. No relatório, o nome da
+  sua conta do Windows aparece trocado por `<usuario>` nos caminhos de pasta.
+- **"Mostrar arquivo de log":** abre a pasta com o arquivo já selecionado. É o
+  log inteiro, sem a troca do nome da conta.
+
+Com o app aberto, o log fica em
+`%LOCALAPPDATA%\com.crivonotarial.desktop\logs\`. O log não contém CPF, nome
+de pessoa qualificada nem conteúdo de documento. O arquivo inteiro pode conter
+caminhos de pasta do Windows, e um caminho carrega o nome da sua conta de
+usuário.
 
