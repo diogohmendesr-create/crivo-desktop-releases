@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.44** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.45** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -382,6 +382,14 @@ novamente" sem perder os dados. Sair e abrir o app à mão continua
 funcionando: a pergunta aparece na abertura — mas **sair é pelo ícone da
 bandeja (botão direito → Sair)**; o X da janela só a esconde, e reabrir pela
 bandeja volta à mesma sessão, sem passar pela verificação de versão.
+
+Com o app aberto, ele confere sozinho se há versão nova a cada hora. Para
+conferir na hora, o Titular abre **Configurações → aba Crivo Desktop**
+(tela Manutenção) e, no
+quadro **"Atualização do aplicativo"**, clica em **"Procurar
+atualização"**: o quadro mostra a versão instalada e, se houver versão
+nova, o mesmo botão **"Reiniciar e atualizar"** do aviso amarelo. Procurar
+não instala nada; a instalação continua pedindo confirmação na abertura.
 
 ## 10. Se algo falhar
 
