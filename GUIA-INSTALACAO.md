@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.46** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.47** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -306,65 +306,14 @@ o botão **"Conectar conta OpenAI"**, que leva direto à aba "Crivo Desktop" do
 passo 2; o resto do módulo (gerar a minuta, lacunas `[[FALTA]]`, modelos,
 exportação) funciona normalmente sem IA.
 
-## 8.1 Conector para o Claude Desktop (opcional — Titular)
+## 8.1 Conector para o Claude Desktop (retirado)
 
-Se o cartório usa o **Claude Desktop** (aplicativo da Anthropic) para redigir,
-dá para ligar os dois: o Claude passa a consultar as qualificações e as
-certidões do Crivo Desktop e a emitir só as que faltam. Tudo fica nesta
-máquina; nada vai para a nuvem da Crivo por causa do conector — o que o Claude
-lê vai para a Anthropic pela conta Claude do cartório (ver os Termos de Uso,
-seção 4-B, em www.crivonotarial.com.br/termos). Passos conferidos no Claude
-Desktop 2.2553.1 (Microsoft Store) em 18/09/2026.
-
-1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
-   Desktop"** → **"Baixar conector (.mcpb)"**. O navegador padrão do Windows
-   abre e o arquivo vai para a pasta Downloads (a partir da versão 0.1.18;
-   nas anteriores o botão não fazia nada — atualize o app).
-2. Ainda nessa tela, clique em **"Gerar chave de pareamento"** e copie a chave
-   (ela aparece uma única vez — se perder, gere outra).
-3. No Claude Desktop: **Configurações** (Ctrl+,) → **Extensões** →
-   **"Configurações avançadas"** → **"Instalar extensão"** → escolha o arquivo
-   baixado (ou arraste o arquivo para a tela de Extensões, onde está escrito
-   "Arraste arquivos .MCPB ou .DXT aqui para instalar"). O duplo clique no
-   arquivo **não** funciona na versão da Microsoft Store.
-4. Confira o nome **"Crivo Notarial Desktop"** e a lista de ferramentas, clique
-   em **"Instalar"** e confirme a caixa "Deseja instalar Crivo Notarial
-   Desktop?".
-5. Cole a chave no campo **"Chave de pareamento do Crivo Desktop"** e clique em
-   **"Salvar"**. A extensão é instalada **desligada**: no topo da tela da
-   extensão, ligue o botão ao lado de "Desabilitado" — deve mudar para
-   **"Ativado"**. (Para voltar a essa tela depois: Extensões → "Crivo Notarial
-   Desktop" → **"Configurar"**.)
-6. Na mesma tela, em **"Permissões de ferramentas"**, o Claude Desktop separa
-   as ferramentas em dois grupos. Em **"Ferramentas somente leitura"** (8:
-   estado do Crivo Desktop, buscar pessoa, qualificação completa, listar
-   minutas, detalhe de uma minuta, listar certidões, ler uma certidão,
-   acompanhar emissões) escolha **"Sempre permitir"** para não confirmar cada
-   consulta. Em **"Ferramentas de gravação/exclusão"** há só **"Emitir
-   certidões (consome créditos)"**: deixe em **"Requer aprovação"**, que é o
-   padrão — assim cada emissão pede o seu OK e nenhum crédito é gasto sem você
-   ver. Nunca marque "Sempre permitir" nessa.
-7. Abra uma conversa nova e peça: *"verifique a conexão com o Crivo"*. Se
-   você não mexeu nas permissões, o Claude pede autorização na hora ("Sempre
-   permitir" vale para as consultas). A resposta deve mostrar `pareamento:
-   paired` e a sessão `ok`.
-
-**A sessão precisa estar ativa.** A chave só funciona neste computador, com o
-Crivo Desktop **aberto e logado com a conta do Titular** que a gerou. Por
-segurança, o Crivo Desktop encerra a sessão depois de **8 horas sem ninguém
-mexer nele** (as chamadas do Claude não contam como uso): na manhã seguinte,
-ou depois de um fim de semana, o Claude responde "Abra o Crivo Desktop e entre
-com a conta que criou o pareamento" — basta entrar de novo no Crivo Desktop e
-repetir o pedido. Quedas curtas de internet não derrubam a sessão.
-
-**Atualizar ou desfazer.** Quando o Crivo Desktop atualizar (seção 9), baixe o
-conector de novo pela tela de Manutenção e instale por cima pelo mesmo caminho
-do passo 3: o Claude Desktop reconhece como "Atualizar" e mantém a chave (só
-cole uma chave nova se você tiver gerado outra no Crivo Desktop); confira as
-permissões do passo 6 depois, porque o Claude pode voltar a pedir autorização.
-Para desfazer a integração, clique em **"Revogar"** na tela do Crivo Desktop (o
-Claude passa a receber "não pareado"); para remover a extensão, no Claude
-Desktop use **"…" → "Desinstalar"** ao lado dela.
+O conector para o Claude Desktop saiu do Crivo Desktop nas versões publicadas
+a partir de novembro de 2026. Se ele foi instalado numa versão anterior,
+atualize o Crivo Desktop e remova a extensão no Claude Desktop:
+**Configurações** (Ctrl+,) → **Extensões** → **"…" → "Desinstalar"** ao lado de
+"Crivo Notarial Desktop". Depois da atualização, o Crivo Desktop não aceita mais
+a chave antiga.
 
 ## 9. Atualizações
 
