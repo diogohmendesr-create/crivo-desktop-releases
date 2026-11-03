@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.50** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.51** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -241,8 +241,13 @@ ato real.
    passa por **"Aguardando Companion"** (na fila — o nome é herdado de outro
    produto da Crivo; aqui significa só "na fila") → **"Processando"** →
    **"Emitida"**, com o botão **"Baixar PDF"**. O PDF é salvo na pasta
-   **Downloads** do Windows (aparece o balão de download no canto superior
-   direito do app) — o mesmo vale para "Baixar" nas abas Acervo e Alertas.
+   **Downloads** do Windows e abre sozinho no leitor de PDF do computador — o
+   mesmo vale para "Baixar" nas abas Acervo e Alertas e para o PDF e o Word
+   exportados da minuta. O **"Baixar lote (.zip)"** abre a pasta Downloads com
+   o arquivo marcado. Para guardar o arquivo em outro lugar, use **"Salvar
+   como"** no programa que abriu. Se o Word mostrar a faixa de **Modo de
+   Exibição Protegido**, confira que é o arquivo que você acabou de exportar
+   antes de habilitar a edição.
 4. **Primeiro teste: CNDT (PF).** Não usa o Chrome (é direto com o TST) —
    cerca de **15 segundos**.
 5. **Segundo teste: Receita Federal (PF).** O app usa o **Google Chrome em
@@ -353,6 +358,7 @@ não instala nada; a instalação continua pedindo confirmação na abertura.
 | "chrome.exe não encontrado — instale o Google Chrome no computador" | Chrome ausente (a partir da versão 0.1.11 o Desktop encontra o Chrome instalado por máquina em `Program Files` E o instalado só para o usuário, em `%LOCALAPPDATA%`) | Instale o Google Chrome; qualquer uma das duas formas de instalação serve. |
 | A janela do Google Chrome **aparece na tela** durante a emissão | O app oculta essa janela, mas só quando o computador deixa: antivírus ou política da rede bloqueando o PowerShell impedem, e o app então abre a janela como sempre abriu — a emissão não é afetada | Não feche nem mexa na janela. Se quiser a janela oculta, a TI libera o `powershell.exe` para o Crivo; o app confere de novo sozinho em até 7 dias (o suporte pode antecipar). |
 | Cliquei em **"Baixar PDF"** (ou "Baixar" na aba Acervo) e nada acontece | Versão anterior à **0.1.17** — o app não conseguia abrir o download | Atualize pelo aviso de versão nova ("Reiniciar e atualizar"). Até lá, na aba Painel de Certidões o botão **"Baixar lote (.zip)"** funciona. |
+| O PDF ou o Word baixado/exportado **não abriu sozinho** | Não há programa padrão no Windows para `.pdf` ou `.docx`, ou o antivírus bloqueou a abertura (o app abre a pasta Downloads com o arquivo marcado); ou foram mais de três arquivos em um minuto, e os demais ficam em Downloads sem abrir | O arquivo está em **Downloads**. Para abrir sozinho nas próximas vezes, a TI define o leitor de PDF e o Word como programas padrão. |
 | Certidão falhou com mensagem de portal | Portal instável ou dado inválido | Leia a mensagem no painel; temporária = espere a nova tentativa; definitiva = corrija o dado e emita de novo. |
 | "modo somente-leitura" inesperado | Sem internet há dias, ou assinatura inativa | Reconecte, entre de novo; confira a assinatura com a Crivo. |
 | Perdeu a senha de backup | — | Os backups antigos **não** têm recuperação. Defina uma senha nova na tela Manutenção e faça um backup novo imediatamente. |
