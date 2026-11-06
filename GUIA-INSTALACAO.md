@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.53** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.54** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -351,6 +351,7 @@ não instala nada; a instalação continua pedindo confirmação na abertura.
 |---|---|---|
 | Tela azul do Windows no instalador | SmartScreen sem certificado | "Mais informações" → "Executar assim mesmo" (seção 3). |
 | Primeira abertura fica em "Preparando o banco de dados local…" e termina em "não respondeu a tempo" | Antivírus bloqueando `postgres.exe` ou a pasta `%LOCALAPPDATA%\CrivoDesktop` — **ou nome de conta do Windows com acento** (José, Antônio), corrigido a partir da versão 0.1.9 | TI adiciona exceção para a pasta do programa e para `%LOCALAPPDATA%\CrivoDesktop`; abra o app de novo. Se o nome da conta tem acento, **baixe a versão mais recente e instale por cima** — a atualização automática não alcança quem nunca conseguiu abrir o app. |
+| "Um arquivo do Crivo Notarial Desktop está faltando ou foi bloqueado neste computador" — ou, até a versão 0.1.53, "O serviço local encerrou inesperadamente (código 2)" já na primeira abertura | Falta uma biblioteca do banco local: o antivírus removeu ou bloqueou um arquivo do programa, ou (até a 0.1.53) o computador não tinha o Microsoft Visual C++ Redistributable, que o instalador passou a trazer junto a partir da 0.1.54 | **Baixe a versão mais recente e instale por cima**, sem desinstalar e sem apagar `%LOCALAPPDATA%\CrivoDesktop`. Se o antivírus bloquear de novo, a TI adiciona exceção para a pasta do programa. |
 | "A porta 54321 está em uso por outro programa" | Outro Crivo Desktop aberto (outro usuário Windows) ou programa técnico na porta | Feche o outro programa; "Tentar novamente". |
 | O app foi fechado à força / o computador desligou no meio | — | Basta abrir de novo: o app substitui sozinho o serviço que ficou para trás. |
 | "O serviço local encerrou inesperadamente" logo depois de uma **restauração de backup interrompida** (app fechado ou computador desligado no meio) | O app se recusa a criar um banco novo por cima dos seus dados: eles estão na pasta `%LOCALAPPDATA%\CrivoDesktop\pgdata.pre-restore-<data>` | Chame o suporte. A recuperação é renomear essa pasta de volta para `pgdata` (e `storage.pre-restore-<data>` para `storage`, se existir) e abrir o app — nada foi perdido. |
