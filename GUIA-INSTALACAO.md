@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.54** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.55** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -36,6 +36,21 @@ e a restauração, abaixo, são o caminho para mover dados de uma máquina a out
       Microsoft Authenticator ou similar): a conta do Titular exige verificação
       em duas etapas (MFA). Se ainda não estiver ativada, o app pede para ativar
       no primeiro login.
+- [ ] **Conta gov.br de nível prata ou ouro para cada escrevente que for emitir
+      a Certidão Única de Débitos Sefaz/PGE-SP** (a certidão estadual de SP, que
+      substituiu a CND da Sefaz desde 14/10/2026). O portal em que ela é emitida
+      (SIDEB) só aceita login no gov.br. A conta é da pessoa, não do cartório: o
+      Crivo **nunca vê nem guarda a senha, o segundo fator ou a sessão** do
+      gov.br. O login é feito por você, numa janela do Google Chrome (seção 7,
+      item 7). Quem tem conta de nível bronze precisa subir o nível no próprio
+      gov.br antes.
+- [ ] **Uma conta do Windows para cada escrevente**, se cada um for emitir a
+      Certidão Única com o próprio gov.br. A sessão do gov.br fica guardada pelo
+      Chrome na conta do Windows em uso: quem divide a mesma conta do Windows
+      divide a mesma sessão, e a certidão sai com a sessão de quem entrou no
+      gov.br, não de quem pediu. Lembre que cada conta do Windows tem a sua
+      própria base do Crivo (primeiro item desta lista); o backup e a
+      restauração (seção 6) são o caminho para mover dados de uma conta a outra.
 - [ ] **Antivírus**: o app inicia dois programas auxiliares no próprio
       computador (`postgres.exe` e `postgrest.exe`). Eles **não abrem porta na
       rede** — só conversam dentro da máquina (porta local 54321). Se o
@@ -269,6 +284,49 @@ ato real.
    pronto em minutos, mas o prazo oficial é de dias — não é erro. Computador
    desligado não verifica: o app precisa estar rodando (a janela pode estar
    fechada — basta o ícone na bandeja).
+7. **Certidão Única Sefaz/PGE-SP: "Entrar no gov.br".** A certidão estadual de
+   SP (na lista "Tipos de certidão", "Certidão Única de Débitos Sefaz/PGE-SP
+   (PF)" e "(PJ)", que só pedem o CPF ou o CNPJ) é emitida no portal SIDEB com
+   o login do gov.br de quem pede. Por isso o Crivo precisa que você entre no
+   gov.br neste computador. A sessão fica guardada pelo Chrome enquanto o gov.br
+   a mantiver; ela expira sozinha depois de um tempo sem uso. Entre no gov.br
+   no início do expediente e depois de pausas longas; o Painel avisa quando for
+   preciso. O login é seu: o Crivo não vê a senha nem o segundo fator, e guarda
+   só o que o próprio Chrome guarda.
+   - Peça a certidão pelo formulário avulso ou pelo checklist da minuta. Sem
+     sessão no gov.br, ela espera na fila (**"Aguardando login no gov.br"**) e
+     no topo do Painel de Certidões aparece o aviso
+     **"Para emitir a Certidão Única Sefaz/PGE-SP, entre no gov.br neste
+     computador."**
+   - Clique em **"Entrar no gov.br"**. O Crivo mostra um aviso com o que vai
+     acontecer (a janela do Chrome, o que fica guardado, por quanto tempo e como
+     sair) e só abre a janela depois que você clicar em **"Abrir o Chrome"**. O
+     aviso aparece toda vez, de propósito.
+   - Abre uma janela do Google Chrome no portal SIDEB. Entre com a sua conta
+     gov.br (nível prata ou ouro), com o segundo fator, como faria no portal. O
+     Painel mostra "Janela do Chrome aberta. Entre no gov.br e volte aqui; a
+     fila retoma sozinha."
+   - Quando o SIDEB mostrar a tela de emissão, o Crivo percebe, **fecha a janela
+     sozinho** e avisa "Sessão gov.br ativa. As certidões na fila serão
+     emitidas." As certidões que esperavam saem sem outro clique. Se a janela
+     for fechada antes do fim do login, ou se passarem 10 minutos, o aviso volta
+     ao Painel e basta clicar em "Entrar no gov.br" de novo; nada se perde.
+   - Com a sessão ativa, as próximas Certidões Únicas saem sem login, em
+     segundo plano. Depois de uma pausa longa a sessão expira sozinha e o aviso
+     volta ao Painel: basta entrar no gov.br de novo. Enquanto está ativa, o
+     Painel mostra a linha "gov.br: sessão ativa neste computador", com o
+     horário do login.
+   - A certidão da Pessoa Jurídica sai pelos 8 primeiros dígitos do CNPJ (a
+     raiz, como o portal exige) e vale para a matriz e todas as filiais. A
+     validade é de 90 dias. Se o SIDEB informar pendências para o CPF ou o CNPJ,
+     ele não emite certidão: o painel mostra o motivo em português, e é preciso
+     consultar o portal para regularizar.
+   - **Para sair** (antes de deixar o cartório ou de ceder o computador), use
+     **"Sair do gov.br e remover o perfil"**. No Painel de Certidões o botão
+     está tanto na linha "gov.br: sessão ativa neste computador" quanto no
+     aviso "entre no gov.br" (sempre que o perfil existir no computador), e o
+     Titular também pode remover em Configurações → aba Crivo Desktop → "Sessão
+     gov.br (SIDEB)". Veja "Quando um escrevente deixa o cartório", mais abaixo.
 
 Se uma emissão falhar, o painel mostra o motivo em português. Falhas
 temporárias (portal fora do ar, instabilidade) são tentadas de novo sozinhas;
@@ -311,14 +369,69 @@ o botão **"Conectar conta OpenAI"**, que leva direto à aba "Crivo Desktop" do
 passo 2; o resto do módulo (gerar a minuta, lacunas `[[FALTA]]`, modelos,
 exportação) funciona normalmente sem IA.
 
-## 8.1 Conector para o Claude Desktop (retirado)
+## 8.1 Conector para o Claude Desktop (opcional — Titular)
 
-O conector para o Claude Desktop saiu do Crivo Desktop nas versões publicadas
-a partir de novembro de 2026. Se ele foi instalado numa versão anterior,
-atualize o Crivo Desktop e remova a extensão no Claude Desktop:
-**Configurações** (Ctrl+,) → **Extensões** → **"…" → "Desinstalar"** ao lado de
-"Crivo Notarial Desktop". Depois da atualização, o Crivo Desktop não aceita mais
-a chave antiga.
+Se o cartório usa o **Claude Desktop** (aplicativo da Anthropic) para redigir,
+dá para ligar os dois: o Claude passa a consultar as qualificações e as
+certidões do Crivo Desktop e a emitir só as que faltam. Tudo fica nesta
+máquina; nada vai para a nuvem da Crivo por causa do conector — o que o Claude
+lê vai para a Anthropic pela conta Claude do cartório (ver os Termos de Uso,
+seção 4-B, em www.crivonotarial.com.br/termos). Passos conferidos no Claude
+Desktop 2.2553.1 (Microsoft Store) em 18/09/2026 e revistos para a versão
+4.4212 em 06/11/2026 pelos textos do próprio aplicativo: se a sua versão
+mostrar outro nome de menu, procure a opção equivalente na tela de Extensões.
+
+1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
+   Desktop"** → **"Baixar conector (.mcpb)"**. O navegador padrão do Windows
+   abre e o arquivo vai para a pasta Downloads (a partir da versão 0.1.55;
+   nas versões 0.1.47 a 0.1.54 o conector não existia — atualize o app).
+2. Ainda nessa tela, clique em **"Gerar chave de pareamento"** e copie a chave
+   (ela aparece uma única vez — se perder, gere outra). Se o cartório já tinha
+   pareado antes da versão 0.1.47, gere uma chave nova: as versões 0.1.47 a
+   0.1.54 apagaram o pareamento ao abrir.
+3. No Claude Desktop: **Configurações** (Ctrl+,) → **Extensões** → no menu
+   da tela de Extensões, **"Instalar extensão…"** → escolha o arquivo baixado
+   (na 4.4212 o item "Configurações avançadas" das versões antigas não existe
+   mais; o item fica no menu da própria tela de Extensões). O duplo clique no
+   arquivo **não** funciona na versão da Microsoft Store.
+4. Confira o nome **"Crivo Notarial Desktop"** e a lista de ferramentas, clique
+   em **"Instalar"** e confirme a caixa "Deseja instalar Crivo Notarial
+   Desktop?".
+5. Cole a chave no campo **"Chave de pareamento do Crivo Desktop"** e clique em
+   **"Salvar"**. A extensão é instalada **desligada**: no topo da tela da
+   extensão, ligue o botão ao lado de "Desabilitado" — deve mudar para
+   **"Ativado"**. (Para voltar a essa tela depois: Extensões → "Crivo Notarial
+   Desktop" → **"Configurar"**.)
+6. Na mesma tela, em **"Permissões de ferramentas"**, o Claude Desktop separa
+   as ferramentas em dois grupos. Em **"Ferramentas somente leitura"** (8:
+   estado do Crivo Desktop, buscar pessoa, qualificação completa, listar
+   minutas, detalhe de uma minuta, listar certidões, ler uma certidão,
+   acompanhar emissões) escolha **"Sempre permitir"** para não confirmar cada
+   consulta. Em **"Ferramentas de gravação/exclusão"** há só **"Emitir
+   certidões (consome créditos)"**: deixe em **"Requer aprovação"**, que é o
+   padrão — assim cada emissão pede o seu OK e nenhum crédito é gasto sem você
+   ver. Nunca marque "Sempre permitir" nessa.
+7. Abra uma conversa nova e peça: *"verifique a conexão com o Crivo"*. Se
+   você não mexeu nas permissões, o Claude pede autorização na hora ("Sempre
+   permitir" vale para as consultas). A resposta deve mostrar `pareamento:
+   paired` e a sessão `ok`.
+
+**A sessão precisa estar ativa.** A chave só funciona neste computador, com o
+Crivo Desktop **aberto e logado com a conta do Titular** que a gerou. Por
+segurança, o Crivo Desktop encerra a sessão depois de **8 horas sem ninguém
+mexer nele** (as chamadas do Claude não contam como uso): na manhã seguinte,
+ou depois de um fim de semana, o Claude responde "Abra o Crivo Desktop e entre
+com a conta que criou o pareamento" — basta entrar de novo no Crivo Desktop e
+repetir o pedido. Quedas curtas de internet não derrubam a sessão.
+
+**Atualizar ou desfazer.** Quando o Crivo Desktop atualizar (seção 9), baixe o
+conector de novo pela tela de Manutenção e instale por cima pelo mesmo caminho
+do passo 3: o Claude Desktop reconhece como "Atualizar" e mantém a chave (só
+cole uma chave nova se você tiver gerado outra no Crivo Desktop); confira as
+permissões do passo 6 depois, porque o Claude pode voltar a pedir autorização.
+Para desfazer a integração, clique em **"Revogar"** na tela do Crivo Desktop (o
+Claude passa a receber "não pareado"); para remover a extensão, no Claude
+Desktop use **"…" → "Desinstalar"** ao lado dela.
 
 ## 9. Atualizações
 
@@ -358,6 +471,8 @@ não instala nada; a instalação continua pedindo confirmação na abertura.
 | "Este Crivo Desktop está vinculado a outra serventia." ao entrar | Este computador já foi usado por uma conta de OUTRO cartório: o Desktop guarda os dados de um cartório só e recusa contas de outros | Entre com uma conta do cartório vinculado. Se o computador mudou de cartório de verdade, chame o suporte — a desvinculação apaga `%LOCALAPPDATA%\CrivoDesktop\org-binding.json` (e o banco local, que é do cartório anterior). |
 | "chrome.exe não encontrado — instale o Google Chrome no computador" | Chrome ausente (a partir da versão 0.1.11 o Desktop encontra o Chrome instalado por máquina em `Program Files` E o instalado só para o usuário, em `%LOCALAPPDATA%`) | Instale o Google Chrome; qualquer uma das duas formas de instalação serve. |
 | A janela do Google Chrome **aparece na tela** durante a emissão | O app oculta essa janela, mas só quando o computador deixa: antivírus ou política da rede bloqueando o PowerShell impedem, e o app então abre a janela como sempre abriu — a emissão não é afetada | Não feche nem mexa na janela. Se quiser a janela oculta, a TI libera o `powershell.exe` para o Crivo; o app confere de novo sozinho em até 7 dias (o suporte pode antecipar). |
+| "Aguardando login no gov.br" na certidão, ou o aviso "Para emitir a Certidão Única Sefaz/PGE-SP, entre no gov.br neste computador." no topo do Painel | Não há sessão do gov.br neste computador (primeira vez, início do expediente ou depois de uma pausa longa) ou ela expirou por inatividade; a Certidão Única só sai com o login do escrevente | Clique em **"Entrar no gov.br"** no aviso, leia o aviso do Crivo, clique em "Abrir o Chrome" e entre no gov.br na janela (seção 7, item 7). A certidão sai sozinha depois. Se aparecer "O Chrome do SIDEB está em uso pelo login ou por outra emissão. Aguarde e tente de novo.", há uma emissão ou outro login em andamento: espere e clique de novo. Se aparecer "Não foi possível abrir o Google Chrome. Confira se ele está instalado.", veja a linha do `chrome.exe` acima. |
+| A janela do Chrome aberta pelo "Entrar no gov.br" não fecha, ou fechou e o aviso voltou | O login ainda não terminou (inclusive o segundo fator), ou o SIDEB não chegou à tela de emissão; ou a janela foi fechada antes do fim; ou passaram 10 minutos | Conclua o login na janela: o Crivo a fecha sozinho quando o SIDEB abre a tela de emissão. Se ela fechou antes ou o tempo passou, clique em "Entrar no gov.br" de novo; nada se perde. Se a janela ficar parada numa tela de erro do gov.br, feche-a e repita. |
 | Cliquei em **"Baixar PDF"** (ou "Baixar" na aba Acervo) e nada acontece | Versão anterior à **0.1.17** — o app não conseguia abrir o download | Atualize pelo aviso de versão nova ("Reiniciar e atualizar"). Até lá, na aba Painel de Certidões o botão **"Baixar lote (.zip)"** funciona. |
 | O PDF ou o Word baixado/exportado **não abriu sozinho** | Não há programa padrão no Windows para `.pdf` ou `.docx`, ou o antivírus bloqueou a abertura (o app abre a pasta Downloads com o arquivo marcado); ou foram mais de três arquivos em um minuto, e os demais ficam em Downloads sem abrir | O arquivo está em **Downloads**. Para abrir sozinho nas próximas vezes, a TI define o leitor de PDF e o Word como programas padrão. |
 | Certidão falhou com mensagem de portal | Portal instável ou dado inválido | Leia a mensagem no painel; temporária = espere a nova tentativa; definitiva = corrija o dado e emita de novo. |
@@ -387,4 +502,34 @@ Com o app aberto, o log fica em
 de pessoa qualificada nem conteúdo de documento. O arquivo inteiro pode conter
 caminhos de pasta do Windows, e um caminho carrega o nome da sua conta de
 usuário.
+
+## Quando um escrevente deixa o cartório
+
+A sessão do gov.br de cada escrevente fica guardada pelo Chrome no computador,
+na conta do Windows em que ele trabalhava. Ao desligar o escrevente, trocar o
+computador de mãos ou devolver uma máquina:
+
+1. Com a conta do Windows dele aberta, entre no Crivo Desktop → **Certidões** →
+   aba **Painel** e clique em **"Sair do gov.br e remover o perfil"**. O botão
+   está na linha "gov.br: sessão ativa neste computador" e também no aviso "Para
+   emitir a Certidão Única Sefaz/PGE-SP, entre no gov.br neste computador."
+   (sempre que o perfil existir no computador, mesmo que a sessão já tenha
+   expirado: os cookies podem continuar no perfil). O Titular também pode
+   remover em **Configurações → aba Crivo Desktop → "Sessão gov.br (SIDEB)"**.
+   Confirme. O Crivo apaga a pasta do perfil do Chrome dedicada ao SIDEB, com o
+   que o gov.br gravou nela. Se o escrevente já saiu e a conta do Windows
+   continua, quem tiver acesso a ela (o Titular) abre o Crivo Desktop com essa
+   conta e faz o mesmo.
+2. As Certidões Únicas que estavam esperando na fila ficam "Aguardando login no
+   gov.br" até alguém entrar no gov.br de novo.
+3. Se a conta do Windows do escrevente for apagada do computador, o perfil vai
+   junto com a pasta do usuário.
+4. O botão não encerra a sessão do SIDEB no servidor. Sem os cookies que ficavam
+   no perfil removido, ninguém consegue usá-la, e ela expira sozinha por
+   inatividade.
+5. Anote a data da remoção no controle interno do cartório sobre os acessos de
+   quem sai. As certidões já emitidas continuam no Acervo, com a validade de 90
+   dias; cada uma guarda o instante do login do gov.br que a emitiu (sem nome
+   nem CPF), que o cartório pode cruzar com o próprio registro de quem usava
+   aquela conta do Windows.
 
