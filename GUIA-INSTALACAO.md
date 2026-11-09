@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.58** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.59** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -206,6 +206,13 @@ O card **"Status desta instalação"** na mesma tela mostra "Banco local" e "API
 local" (devem estar "Ativo"/"Ativa"), as migrações aplicadas, o dispatcher de
 emissões, a sincronização com a nuvem e o último backup bem-sucedido.
 
+A partir da **desktop-v0.1.59**, o próprio app lembra o Titular: quando nunca
+houve backup concluído, quando o último tem 7 dias ou mais, ou quando a última
+tentativa falhou, aparece um aviso no topo de todas as telas, com **"Fazer
+backup agora"** (leva a esta tela, já na seção de backup) e **"Lembrar
+amanhã"** (esconde o aviso por 24 horas). Só o Titular vê o aviso; ele não
+substitui o backup automático — é o sinal de que ele não está acontecendo.
+
 ### Restaurar um backup (máquina nova ou disco trocado)
 
 Na mesma tela, no fim, botão **"Restaurar um backup…"**. Abre um assistente
@@ -382,7 +389,8 @@ Desktop 2.2553.1 (Microsoft Store) em 18/09/2026 e revistos para a versão
 mostrar outro nome de menu, procure a opção equivalente na tela de Extensões.
 
 1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
-   Desktop"** → **"Baixar conector (.mcpb)"**. O navegador padrão do Windows
+   (Desktop e Code)"** (até a versão 0.1.58 a seção se chamava "Conector para
+   o Claude Desktop") → **"Baixar conector (.mcpb)"**. O navegador padrão do Windows
    abre e o arquivo vai para a pasta Downloads (a partir da versão 0.1.55;
    nas versões 0.1.47 a 0.1.54 o conector não existia — atualize o app).
 2. Ainda nessa tela, clique em **"Gerar chave de pareamento"** e copie a chave
@@ -432,6 +440,61 @@ permissões do passo 6 depois, porque o Claude pode voltar a pedir autorização
 Para desfazer a integração, clique em **"Revogar"** na tela do Crivo Desktop (o
 Claude passa a receber "não pareado"); para remover a extensão, no Claude
 Desktop use **"…" → "Desinstalar"** ao lado dela.
+
+## 8.2 Conector para o Claude Code (terminal) — opcional, Titular
+
+O **Claude Code** é o Claude que trabalha no terminal do Windows. O mesmo
+conector funciona nele, pelo programa `crivo-mcp.exe`, que vem junto com o
+Crivo Desktop a partir da versão 0.1.59. Vale tudo o que a seção 8.1 diz
+sobre a conta Claude do cartório, a sessão de 8 horas e os créditos. Antes de
+começar, o Claude Code precisa estar instalado neste computador (o comando
+`claude` responde no terminal).
+
+1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
+   (Desktop e Code)"**. O bloco **"Claude Code (terminal)"** mostra os dois
+   comandos deste passo a passo, já com o caminho do programa, e um botão
+   **"Copiar"** ao lado de cada um. (Se o bloco não aparecer, atualize o Crivo
+   Desktop.)
+2. Clique em **"Gerar chave de pareamento"** e copie a chave. A chave é **uma
+   só para o Claude Desktop e o Claude Code**: se o Claude Desktop já está
+   pareado e você ainda tem a chave, use a mesma; se gerar outra, a anterior
+   para de funcionar nos dois, e a chave nova também tem de ser colada na
+   extensão do Claude Desktop (seção 8.1, passo 5).
+3. Abra o **Terminal** do Windows (no Windows 11 ele abre no PowerShell), cole
+   o primeiro comando (o que começa com `&` e termina em `pair`, no formato
+   `& "C:\…\crivo-mcp.exe" pair`) e tecle Enter. O `&` do início é o que faz o
+   PowerShell rodar o programa: sem ele aparece o erro "Token 'pair'
+   inesperado". No Prompt de Comando (cmd.exe), use o mesmo comando sem o `&`.
+   Quando ele pedir, cole a chave e tecle Enter — a chave **não aparece na
+   tela** enquanto você cola, de propósito. A resposta deve ser "Pareado com …"
+   e o nome do cartório.
+4. Cole o segundo comando (o que termina em `install claude-code`) e tecle
+   Enter. A resposta deve ser "Conector registrado no Claude Code". Se o
+   programa disser que não encontrou o Claude Code, ele mostra um comando que
+   começa com `claude mcp add`: copie e rode esse comando no terminal em que o
+   Claude Code funciona.
+5. Feche e abra o Claude Code de novo e peça: *"verifique a conexão com o
+   Crivo"*. A resposta deve mostrar a sessão `ok`.
+
+**Créditos.** O Claude Code pergunta antes de usar cada ferramenta. Para a de
+emitir certidões (`emit_certidoes`), **nunca** escolha a opção que libera para
+sempre: cada emissão consome créditos, e aprovar uma a uma é o que garante que
+nenhum crédito sai sem você ver.
+
+**Onde fica a chave.** O `pair` guarda a chave num arquivo do seu usuário do
+Windows (`%LOCALAPPDATA%\CrivoCompanion\mcp-cli\pairing-key.json`). Ela não
+entra na configuração do Claude Code nem aparece em nenhuma tela do terminal.
+O arquivo não é cifrado: quem usa esta mesma conta do Windows, ou um
+administrador da máquina, consegue lê-lo. Sozinha a chave não serve — ela só
+funciona com o Crivo Desktop aberto e logado neste computador — e é revogada a
+qualquer momento em **"Revogar"**, na Manutenção.
+
+**Conferir ou desfazer.** O comando de status (o mesmo do passo 3, trocando
+`pair` por `status`) mostra se o Crivo Desktop está aberto e
+se a chave foi aceita. Para desfazer, use **"Revogar"** na tela do Crivo
+Desktop (vale para o Claude Desktop e o Claude Code); para apagar a chave
+deste computador, o mesmo comando trocando `pair` por `unpair`; para tirar o
+conector do Claude Code, `claude mcp remove crivo --scope user`.
 
 ## 9. Atualizações
 
