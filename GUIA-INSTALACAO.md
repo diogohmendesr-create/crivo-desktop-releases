@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.59** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.60** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -18,12 +18,12 @@ e a restauração, abaixo, são o caminho para mover dados de uma máquina a out
 
 - [ ] **Windows 10 ou 11 (64 bits)**. Não precisa de usuário administrador: a
       instalação é "por usuário" e os dados ficam na pasta do perfil Windows
-      (`%LOCALAPPDATA%\CrivoDesktop`). Por isso, **instale e use sempre com o
+      (`%LOCALAPPDATA%/CrivoDesktop`). Por isso, **instale e use sempre com o
       mesmo usuário Windows** — cada usuário Windows tem a sua própria base.
 - [ ] **4 GB de memória** e **2 GB livres em disco** (o banco e os PDFs
       crescem com o uso).
-- [ ] **Google Chrome instalado** no local padrão (`C:\Program Files\Google\Chrome`
-      ou `C:\Program Files (x86)\...`). As certidões são emitidas com o Chrome
+- [ ] **Google Chrome instalado** no local padrão (`C:/Program Files/Google/Chrome`
+      ou `C:/Program Files (x86)/...`). As certidões são emitidas com o Chrome
       de verdade do computador; sem ele a emissão falha com a mensagem
       "chrome.exe não encontrado — instale o Google Chrome no computador".
 - [ ] **Internet** no computador. O login, a licença, a extração de documentos
@@ -134,7 +134,7 @@ Mensagens possíveis nessa tela e o que significam:
 | "A porta 54321 está em uso por outro programa. Feche outros aplicativos Crivo (ou o Supabase CLI) e tente novamente." | Há outro Crivo Desktop aberto (talvez em outro usuário Windows) ou um programa técnico usando a mesma porta. Feche-o e clique em "Tentar novamente". |
 | "Encerrando instância anterior…" | Ficou um serviço local de uma abertura anterior (o app foi fechado à força ou o computador desligou). Normal: o app o encerra e segue sozinho em poucos segundos. |
 | "Aguardando a instância anterior finalizar um trabalho em curso…" | O app anterior ainda está terminando uma emissão. Espere; ele substitui sozinho. |
-| "O serviço local não respondeu a tempo. Tente novamente ou contate o suporte." | Geralmente antivírus segurando o `postgres.exe` na primeira execução. Tente de novo. **Se repetir, e principalmente se o nome da conta do Windows tiver acento (José, Antônio):** baixe a versão mais recente e instale por cima, sem desinstalar e sem apagar `%LOCALAPPDATA%\CrivoDesktop`. Depois veja "Se algo falhar". |
+| "O serviço local não respondeu a tempo. Tente novamente ou contate o suporte." | Geralmente antivírus segurando o `postgres.exe` na primeira execução. Tente de novo. **Se repetir, e principalmente se o nome da conta do Windows tiver acento (José, Antônio):** baixe a versão mais recente e instale por cima, sem desinstalar e sem apagar `%LOCALAPPDATA%/CrivoDesktop`. Depois veja "Se algo falhar". |
 | "Instalação incompleta — reinstale o Crivo Notarial Desktop." | Arquivos do instalador faltando. Baixe e instale novamente. |
 
 **Fechar a janela não fecha o app.** O "X" da janela só a esconde: o Crivo
@@ -176,7 +176,8 @@ configuração de backup é uma ação exclusiva do Titular da serventia.").
 
 1. **Pasta de backup neste computador**: uma pasta que já exista (o app **não
    cria** a pasta).
-   Exemplos: `D:\Backups\Crivo` ou `\\servidor\backups`. O ideal é uma pasta
+   Exemplos: `D:/Backups/Crivo` ou a pasta de rede no formato que a tela
+   mostra no campo. O ideal é uma pasta
    **fora deste computador** (servidor da rede, HD externo, pasta sincronizada
    com uma nuvem de arquivos do cartório).
 2. **Senha de backup** + **Confirmar senha**. Leia o aviso da tela — ele é
@@ -233,7 +234,7 @@ de 3 passos — **Escolher → Validar → Executar**:
    agora"**. O app volta logado, com os dados do backup.
 
 Os dados que estavam no computador **não são apagados**: ficam guardados em
-`%LOCALAPPDATA%\CrivoDesktop\pgdata.pre-restore-<data-hora>` e
+`%LOCALAPPDATA%/CrivoDesktop/pgdata.pre-restore-<data-hora>` e
 `storage.pre-restore-<data-hora>` por segurança (podem ser removidos depois,
 quando tiver certeza de que a restauração está certa). Num computador
 recém-instalado é preciso **fazer login com internet uma vez** antes de
@@ -376,53 +377,127 @@ o botão **"Conectar conta OpenAI"**, que leva direto à aba "Crivo Desktop" do
 passo 2; o resto do módulo (gerar a minuta, lacunas `[[FALTA]]`, modelos,
 exportação) funciona normalmente sem IA.
 
-## 8.1 Conector para o Claude Desktop (opcional — Titular)
+## 8.1 Conector e plugin no aplicativo do Claude (opcional — Titular)
 
-Se o cartório usa o **Claude Desktop** (aplicativo da Anthropic) para redigir,
-dá para ligar os dois: o Claude passa a consultar as qualificações e as
-certidões do Crivo Desktop e a emitir só as que faltam. Tudo fica nesta
-máquina; nada vai para a nuvem da Crivo por causa do conector — o que o Claude
-lê vai para a Anthropic pela conta Claude do cartório (ver os Termos de Uso,
-seção 4-B, em www.crivonotarial.com.br/termos). Passos conferidos no Claude
-Desktop 2.2553.1 (Microsoft Store) em 18/09/2026 e revistos para a versão
-4.4212 em 06/11/2026 pelos textos do próprio aplicativo: se a sua versão
-mostrar outro nome de menu, procure a opção equivalente na tela de Extensões.
+Se o cartório usa o **aplicativo do Claude** (da Anthropic) para redigir, dá
+para ligá-lo ao Crivo Desktop: o Claude passa a consultar as qualificações e
+as certidões, a emitir só as que faltam e a trabalhar na **pasta da
+escritura**, a pasta do computador com os documentos do ato: envia os
+documentos para a leitura do Crivo, organiza os nomes dos arquivos e salva na
+pasta os PDFs das certidões. O conector só fala com o Crivo Desktop desta
+máquina. Os documentos enviados para a leitura seguem o mesmo caminho de
+quando são enviados pela tela do Crivo, e a leitura **consome créditos do
+cartório**, como pela tela; cada emissão também consome. A conferência da
+leitura, as pendências e as decisões continuam na tela do Crivo Desktop. O que
+o Claude recebe do Crivo vai para a Anthropic pela conta Claude do cartório
+(ver os Termos de Uso, seção 4-B, em www.crivonotarial.com.br/termos), e os
+documentos da pasta que o próprio Claude abrir também: isso é uso do Claude
+pelo cartório, com a conta do cartório, fora do Crivo. O passo a passo para o
+dia a dia está no manual do app, capítulo "Conector para o Claude (Desktop e
+Code)", no item "Ajuda".
 
-1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
-   (Desktop e Code)"** (até a versão 0.1.58 a seção se chamava "Conector para
-   o Claude Desktop") → **"Baixar conector (.mcpb)"**. O navegador padrão do Windows
-   abre e o arquivo vai para a pasta Downloads (a partir da versão 0.1.55;
-   nas versões 0.1.47 a 0.1.54 o conector não existia — atualize o app).
-2. Ainda nessa tela, clique em **"Gerar chave de pareamento"** e copie a chave
-   (ela aparece uma única vez — se perder, gere outra). Se o cartório já tinha
-   pareado antes da versão 0.1.47, gere uma chave nova: as versões 0.1.47 a
-   0.1.54 apagaram o pareamento ao abrir.
-3. No Claude Desktop: **Configurações** (Ctrl+,) → **Extensões** → no menu
-   da tela de Extensões, **"Instalar extensão…"** → escolha o arquivo baixado
-   (na 4.4212 o item "Configurações avançadas" das versões antigas não existe
-   mais; o item fica no menu da própria tela de Extensões). O duplo clique no
-   arquivo **não** funciona na versão da Microsoft Store.
-4. Confira o nome **"Crivo Notarial Desktop"** e a lista de ferramentas, clique
-   em **"Instalar"** e confirme a caixa "Deseja instalar Crivo Notarial
-   Desktop?".
-5. Cole a chave no campo **"Chave de pareamento do Crivo Desktop"** e clique em
-   **"Salvar"**. A extensão é instalada **desligada**: no topo da tela da
-   extensão, ligue o botão ao lado de "Desabilitado" — deve mudar para
-   **"Ativado"**. (Para voltar a essa tela depois: Extensões → "Crivo Notarial
-   Desktop" → **"Configurar"**.)
-6. Na mesma tela, em **"Permissões de ferramentas"**, o Claude Desktop separa
-   as ferramentas em dois grupos. Em **"Ferramentas somente leitura"** (8:
-   estado do Crivo Desktop, buscar pessoa, qualificação completa, listar
-   minutas, detalhe de uma minuta, listar certidões, ler uma certidão,
-   acompanhar emissões) escolha **"Sempre permitir"** para não confirmar cada
-   consulta. Em **"Ferramentas de gravação/exclusão"** há só **"Emitir
-   certidões (consome créditos)"**: deixe em **"Requer aprovação"**, que é o
-   padrão — assim cada emissão pede o seu OK e nenhum crédito é gasto sem você
-   ver. Nunca marque "Sempre permitir" nessa.
-7. Abra uma conversa nova e peça: *"verifique a conexão com o Crivo"*. Se
-   você não mexeu nas permissões, o Claude pede autorização na hora ("Sempre
-   permitir" vale para as consultas). A resposta deve mostrar `pareamento:
-   paired` e a sessão `ok`.
+São **duas peças**: o **conector**, uma extensão (`.mcpb`) que dá ao Claude as
+14 ferramentas do Crivo, e o **plugin** `crivo`, um `.zip` com os três roteiros
+da pasta da escritura. Passos do aplicativo do Claude para Windows
+**5.1231.2** (de 10/11/2026). Essa versão tem duas áreas, **Claude** e **Code**, escolhidas no menu "Ir"; este guia usa a
+área Claude, que é a do dia a dia. Se a sua versão mostrar outro nome de menu,
+procure a opção equivalente. A pasta da escritura exige o Crivo Desktop
+**0.1.60** ou mais novo; antes dela, o conector só consulta e emite (a partir
+da 0.1.55; nas versões 0.1.47 a 0.1.54 o conector não existia — atualize o
+app).
+
+1. **Remova a extensão antiga.** Se o Claude tem a extensão **"Crivo
+   Certidões"**, desinstale-a pelo menu dela, em **Configurações →
+   Extensões**. Com ela ao lado da nova, o Claude chama as duas e se confunde.
+2. No Crivo Desktop, abra **Configurações → aba "Crivo Desktop" (tela
+   Manutenção) → "Conector para o Claude (Desktop e Code)"**, bloco
+   **"Instalar em três passos"**. Se o aplicativo do Claude ainda não está
+   nesta máquina, o passo 1 da tela, **"Baixar o Claude"**, abre o site
+   oficial.
+3. **Chave (passo 2 da tela).** Clique em **"Gerar chave de pareamento"** (ou
+   **"Gerar nova chave"**, se já estiver pareado) e em **"Copiar chave"**. Ela
+   aparece uma única vez — se perder, gere outra. A chave é **uma só** para a
+   extensão e o terminal (seção 8.2): gerar outra desliga a anterior nos dois.
+   Se o cartório pareou antes da versão 0.1.47, gere uma chave nova: as
+   versões 0.1.47 a 0.1.54 apagaram o pareamento ao abrir.
+4. **Conector (passo 3 da tela).** Clique em **"Baixar conector (.mcpb)"**. O
+   navegador padrão do Windows abre e o arquivo
+   `CrivoDesktop-claude-connector.mcpb` vai para a pasta Downloads. No Claude:
+   **Configurações → Extensões** → no menu da tela de Extensões, **"Instalar
+   extensão…"** → escolha o arquivo (a tela também aceita arrastar o arquivo
+   para ela). Confira o nome **"Crivo Notarial Desktop"** e clique em
+   **"Instalar"**. Cole a chave no campo **"Chave de pareamento do Crivo
+   Desktop"** e salve. A extensão é instalada **desligada**: ligue-a na tela
+   dela.
+5. **Plugin (passo 3 da tela).** Clique em **"Baixar plugin (.zip)"**; o
+   arquivo `CrivoDesktop-claude-plugin.zip` vai para a pasta Downloads. Não
+   descompacte. No Claude: página **"Plugins"** → **"Adicionar"** → **"Fazer
+   upload de plugin"** → escolha o arquivo. A tela de envio mostra o nome e a
+   descrição do plugin e avisa "Só faça upload de plugins em que você confia,
+   porque a Anthropic não controla o que eles fazem."; confirme. O plugin
+   aparece em **"Seus plugins"** como **"Crivo"**, "Por você", com os três
+   roteiros (`abrir-escritura`, `organizar-pasta` e `certidoes-da-escritura`),
+   a nota "Este plugin não inclui nenhum conector" e o selo "Apenas adiciona
+   instruções para o Claude". O conector aparece na mesma página como
+   extensão para desktop: são as duas peças. Um envio do plugin vale para as
+   duas áreas do aplicativo e carrega numa conversa nova, sem reiniciar.
+6. **Permissões das 14 ferramentas.** Na área Claude, com a conversa no modo
+   de permissão **"Manual"**, o Claude pede aprovação num cartão antes de cada
+   ferramenta, com **"Recusar"**, **"Sempre permitir"** e **"Permitir uma
+   vez"**. O cartão mostra o nome técnico da ferramenta (a busca de pessoa
+   apareceu como "Search subject").
+   - **Consultas (10) — podem ficar em "Sempre permitir"**, para não confirmar
+     cada uma: `crivo_status` (estado do Crivo Desktop), `search_subject`
+     (buscar pessoa), `get_subject` (qualificação completa), `list_minutas`,
+     `get_minuta` (detalhe de uma minuta), `list_certidoes`, `read_certidao`
+     (ler uma certidão), `get_emission_status` (acompanhar emissões),
+     `open_folder` (abrir a pasta da escritura, sem enviar nada) e
+     `get_reading_status` (acompanhar a leitura).
+   - **Gravação (4) — sempre "Permitir uma vez", nunca "Sempre permitir":**
+     `create_minuta_from_folder` (envia a pasta para a leitura; consome
+     créditos), `emit_certidoes` (emite certidões; consome créditos),
+     `rename_files` (renomeia documentos da pasta) e `save_certidao_pdf`
+     (salva PDFs na subpasta `Certidões`). Assim cada envio, cada emissão e
+     cada mudança na pasta do cartório passam pelo seu OK. Se uma delas ficou
+     liberada por engano, volte-a a pedir aprovação nas configurações da
+     extensão. Se não achar onde mudar, clique em **"Revogar"** na Manutenção
+     do Crivo Desktop: o Claude para de alcançar o Crivo (e, com isso, de
+     renomear e de salvar na pasta) até você gerar uma chave nova e colá-la na
+     extensão. **Atenção:** "Revogar" só corta a
+     conexão e não desfaz o "Sempre permitir" que ficou marcado no Claude.
+     Depois de colar a chave nova, confira se a ferramenta voltou a pedir
+     aprovação antes de usá-la; se não voltou e você não achar onde mudar, não
+     a use e fale com o suporte.
+7. **Teste da conexão.** Abra uma conversa nova na área Claude e peça:
+   *"verifique a conexão com o Crivo"*. No cartão dessa consulta, "Sempre
+   permitir" serve. A resposta deve mostrar `pareamento: paired`, a sessão
+   `ok` e a versão do conector igual à do Crivo Desktop.
+8. **Teste da pasta.** Crie uma pasta de exemplo (uma subpasta de Documentos
+   serve) com um ou dois PDFs de uma escritura em preparação e abra uma
+   conversa nova na área Claude. Escolha a pasta no seletor **"Projeto ou
+   pasta"** (ou cole o caminho no pedido: no Explorador de Arquivos, clique
+   com o botão direito na pasta, no Windows 10 segurando Shift, e escolha
+   "Copiar como caminho") e peça: *"abra a escritura desta
+   pasta no Crivo"*. O Claude usa o roteiro `abrir-escritura`: confere se o
+   plugin e o conector são da mesma versão, lista a pasta, pergunta se a
+   minuta já foi criada pela tela do Crivo e, antes de enviar, mostra a lista
+   e avisa que a leitura consome créditos. Para testar sem gastar, responda
+   "não" nesse ponto. Para testar a leitura, aprove o envio no cartão de
+   `create_minuta_from_folder` (consome créditos, como pela tela) e, no fim,
+   confira a minuta no Crivo Desktop. Se aparecer o cartão "Claude quer usar
+   uma pasta no seu computador", com "Recusar" e "Permitir nesta sessão",
+   saiba que ele é a permissão do próprio Claude ler os arquivos (o que ele lê
+   assim vai para a Anthropic pela conta do cartório); as ferramentas do Crivo
+   leem a pasta pelo conector e não dependem dele.
+
+**O que o conector grava na pasta da escritura.** Só duas subpastas: `.crivo`,
+com o controle do Crivo (a minuta a que a pasta está ligada e o que já foi
+enviado; não apague, salvo para recomeçar a pasta, como o manual explica) e
+`Certidões`, com os PDFs salvos. Fora delas, só muda o nome dos arquivos que o
+Titular aprovar, e nunca apaga nem sobrescreve arquivo do cartório. Aceita a
+pasta deste computador ou de uma unidade de rede mapeada por letra (como Z:);
+caminho de rede que começa com duas barras é recusado. Renomear não funciona
+em pendrive ou cartão de memória (formatos FAT e exFAT).
 
 **A sessão precisa estar ativa.** A chave só funciona neste computador, com o
 Crivo Desktop **aberto e logado com a conta do Titular** que a gerou. Por
@@ -432,37 +507,52 @@ ou depois de um fim de semana, o Claude responde "Abra o Crivo Desktop e entre
 com a conta que criou o pareamento" — basta entrar de novo no Crivo Desktop e
 repetir o pedido. Quedas curtas de internet não derrubam a sessão.
 
-**Atualizar ou desfazer.** Quando o Crivo Desktop atualizar (seção 9), baixe o
-conector de novo pela tela de Manutenção e instale por cima pelo mesmo caminho
-do passo 3: o Claude Desktop reconhece como "Atualizar" e mantém a chave (só
-cole uma chave nova se você tiver gerado outra no Crivo Desktop); confira as
-permissões do passo 6 depois, porque o Claude pode voltar a pedir autorização.
-Para desfazer a integração, clique em **"Revogar"** na tela do Crivo Desktop (o
-Claude passa a receber "não pareado"); para remover a extensão, no Claude
-Desktop use **"…" → "Desinstalar"** ao lado dela.
+**Atualizar ou desfazer.** Quando o Crivo Desktop atualizar (seção 9), baixe de
+novo o conector e o plugin pela tela de Manutenção (os links são da versão em
+uso) e instale os dois: o conector por cima, pelo mesmo caminho do passo 4 (se
+o Claude pedir a chave de novo, cole-a ou gere outra), e o plugin apagando o
+antigo e enviando o novo, como no passo 5. Se só uma das duas peças for
+atualizada, os roteiros avisam "O plugin do Crivo e o conector estão em
+versões diferentes." Confira as permissões do passo 6 depois, porque o Claude
+pode voltar a pedir autorização. Para desfazer a integração, clique em
+**"Revogar"** na tela do Crivo Desktop (o Claude passa a receber "não
+pareado"). Para tirar o plugin: página **"Plugins"**, menu da linha do
+"Crivo" → **"Apagar"**; o aplicativo pede confirmação ("Essa ação não pode ser
+desfeita") e responde "Plugin removido". **"Desativar"**, no mesmo menu, só
+desliga. Para tirar o conector, desinstale a extensão "Crivo Notarial Desktop"
+pelo menu dela, na tela de Extensões. Nada disso mexe nas pastas das
+escrituras: as subpastas `.crivo` e `Certidões` ficam como estão.
 
 ## 8.2 Conector para o Claude Code (terminal) — opcional, Titular
 
 O **Claude Code** é o Claude que trabalha no terminal do Windows. O mesmo
 conector funciona nele, pelo programa `crivo-mcp.exe`, que vem junto com o
-Crivo Desktop a partir da versão 0.1.59. Vale tudo o que a seção 8.1 diz
-sobre a conta Claude do cartório, a sessão de 8 horas e os créditos. Antes de
-começar, o Claude Code precisa estar instalado neste computador (o comando
-`claude` responde no terminal).
+Crivo Desktop a partir da versão 0.1.59 (as ferramentas da pasta da escritura,
+a partir da 0.1.60). Vale tudo o que a seção 8.1 diz sobre a conta Claude do
+cartório, a sessão de 8 horas e os créditos. Antes de começar, o Claude Code
+precisa estar instalado neste computador (o comando `claude` responde no
+terminal).
 
-1. No Crivo Desktop, **Configurações → Manutenção → "Conector para o Claude
-   (Desktop e Code)"**. O bloco **"Claude Code (terminal)"** mostra os dois
+**Quem usa o aplicativo do Claude com a extensão (seção 8.1) não precisa deste
+registro.** Com os dois, a área Code do aplicativo sobe o conector duas vezes e
+mostra as ferramentas do Crivo **em dobro**. Faça este registro só se o
+cartório usa o Claude Code no terminal.
+
+1. No Crivo Desktop, **Configurações → aba "Crivo Desktop" (tela Manutenção) →
+   "Conector para o Claude (Desktop e Code)"**. O bloco **"Claude Code
+   (terminal)"** mostra os dois
    comandos deste passo a passo, já com o caminho do programa, e um botão
    **"Copiar"** ao lado de cada um. (Se o bloco não aparecer, atualize o Crivo
    Desktop.)
 2. Clique em **"Gerar chave de pareamento"** e copie a chave. A chave é **uma
-   só para o Claude Desktop e o Claude Code**: se o Claude Desktop já está
-   pareado e você ainda tem a chave, use a mesma; se gerar outra, a anterior
-   para de funcionar nos dois, e a chave nova também tem de ser colada na
-   extensão do Claude Desktop (seção 8.1, passo 5).
+   só para a extensão do aplicativo do Claude e o Claude Code**: se a extensão
+   já está pareada e você ainda tem a chave, use a mesma; se gerar outra, a
+   anterior para de funcionar nos dois, e a chave nova também tem de ser
+   colada na extensão (seção 8.1, passo 4).
 3. Abra o **Terminal** do Windows (no Windows 11 ele abre no PowerShell), cole
    o primeiro comando (o que começa com `&` e termina em `pair`, no formato
-   `& "C:\…\crivo-mcp.exe" pair`) e tecle Enter. O `&` do início é o que faz o
+   `& "<caminho do crivo-mcp.exe>" pair`, com o caminho completo que a tela
+   mostra) e tecle Enter. O `&` do início é o que faz o
    PowerShell rodar o programa: sem ele aparece o erro "Token 'pair'
    inesperado". No Prompt de Comando (cmd.exe), use o mesmo comando sem o `&`.
    Quando ele pedir, cole a chave e tecle Enter — a chave **não aparece na
@@ -470,19 +560,35 @@ começar, o Claude Code precisa estar instalado neste computador (o comando
    e o nome do cartório.
 4. Cole o segundo comando (o que termina em `install claude-code`) e tecle
    Enter. A resposta deve ser "Conector registrado no Claude Code". Se o
-   programa disser que não encontrou o Claude Code, ele mostra um comando que
-   começa com `claude mcp add`: copie e rode esse comando no terminal em que o
-   Claude Code funciona.
+   conector já estava registrado, a resposta é "O conector já está registrado
+   no Claude Code (escopo user). Nada a fazer." — não há conflito nem nada a
+   remover; a linha seguinte, que fala em `claude mcp remove`, só vale se o
+   Crivo Desktop tiver mudado de pasta. (Na 0.1.59 a resposta era "O Claude
+   Code não registrou o conector": também não há nada a remover.) Se o
+   programa disser que não encontrou
+   o Claude Code, ele mostra um comando que começa com `claude mcp add`: copie
+   e rode esse comando no terminal em que o Claude Code funciona.
 5. Feche e abra o Claude Code de novo e peça: *"verifique a conexão com o
-   Crivo"*. A resposta deve mostrar a sessão `ok`.
+   Crivo"*. A resposta deve mostrar a sessão `ok`. Depois de um `pair` novo,
+   uma sessão do Claude Code que já estava aberta continua com a chave antiga:
+   reconecte o conector com `/mcp` ou abra outra sessão.
 
-**Créditos.** O Claude Code pergunta antes de usar cada ferramenta. Para a de
-emitir certidões (`emit_certidoes`), **nunca** escolha a opção que libera para
-sempre: cada emissão consome créditos, e aprovar uma a uma é o que garante que
-nenhum crédito sai sem você ver.
+**Roteiros no terminal.** O plugin da seção 8.1 não é instalado no terminal:
+os três roteiros da pasta da escritura chegam como modelos de pedido do
+próprio conector, com o mesmo texto (os comandos `/mcp__crivo__abrir_escritura`,
+`/mcp__crivo__organizar_pasta` e `/mcp__crivo__certidoes_da_escritura`).
+
+**Créditos e pasta do cartório.** O Claude Code pergunta antes de usar cada
+ferramenta. Para as quatro que gravam — `create_minuta_from_folder` (a leitura
+consome créditos), `emit_certidoes` (cada emissão consome créditos),
+`rename_files` e `save_certidao_pdf` (mexem na pasta do cartório) —
+**nunca** escolha a opção que libera para sempre: aprovar uma a uma é o que
+garante que nenhum crédito sai e nenhum arquivo muda sem você ver. Na área
+Code do aplicativo, o modo "Automático" decide sozinho e não pergunta: use o
+modo que pede permissão.
 
 **Onde fica a chave.** O `pair` guarda a chave num arquivo do seu usuário do
-Windows (`%LOCALAPPDATA%\CrivoCompanion\mcp-cli\pairing-key.json`). Ela não
+Windows (`%LOCALAPPDATA%/CrivoCompanion/mcp-cli/pairing-key.json`). Ela não
 entra na configuração do Claude Code nem aparece em nenhuma tela do terminal.
 O arquivo não é cifrado: quem usa esta mesma conta do Windows, ou um
 administrador da máquina, consegue lê-lo. Sozinha a chave não serve — ela só
@@ -492,7 +598,7 @@ qualquer momento em **"Revogar"**, na Manutenção.
 **Conferir ou desfazer.** O comando de status (o mesmo do passo 3, trocando
 `pair` por `status`) mostra se o Crivo Desktop está aberto e
 se a chave foi aceita. Para desfazer, use **"Revogar"** na tela do Crivo
-Desktop (vale para o Claude Desktop e o Claude Code); para apagar a chave
+Desktop (vale para a extensão e o Claude Code); para apagar a chave
 deste computador, o mesmo comando trocando `pair` por `unpair`; para tirar o
 conector do Claude Code, `claude mcp remove crivo --scope user`.
 
@@ -526,12 +632,12 @@ não instala nada; a instalação continua pedindo confirmação na abertura.
 | Sintoma | Causa provável | O que fazer |
 |---|---|---|
 | Tela azul do Windows no instalador | SmartScreen sem certificado | "Mais informações" → "Executar assim mesmo" (seção 3). |
-| Primeira abertura fica em "Preparando o banco de dados local…" e termina em "não respondeu a tempo" | Antivírus bloqueando `postgres.exe` ou a pasta `%LOCALAPPDATA%\CrivoDesktop` — **ou nome de conta do Windows com acento** (José, Antônio), corrigido a partir da versão 0.1.9 | TI adiciona exceção para a pasta do programa e para `%LOCALAPPDATA%\CrivoDesktop`; abra o app de novo. Se o nome da conta tem acento, **baixe a versão mais recente e instale por cima** — a atualização automática não alcança quem nunca conseguiu abrir o app. |
-| "Um arquivo do Crivo Notarial Desktop está faltando ou foi bloqueado neste computador" — ou, até a versão 0.1.53, "O serviço local encerrou inesperadamente (código 2)" já na primeira abertura | Falta uma biblioteca do banco local: o antivírus removeu ou bloqueou um arquivo do programa, ou (até a 0.1.53) o computador não tinha o Microsoft Visual C++ Redistributable, que o instalador passou a trazer junto a partir da 0.1.54 | **Baixe a versão mais recente e instale por cima**, sem desinstalar e sem apagar `%LOCALAPPDATA%\CrivoDesktop`. Se o antivírus bloquear de novo, a TI adiciona exceção para a pasta do programa. |
+| Primeira abertura fica em "Preparando o banco de dados local…" e termina em "não respondeu a tempo" | Antivírus bloqueando `postgres.exe` ou a pasta `%LOCALAPPDATA%/CrivoDesktop` — **ou nome de conta do Windows com acento** (José, Antônio), corrigido a partir da versão 0.1.9 | TI adiciona exceção para a pasta do programa e para `%LOCALAPPDATA%/CrivoDesktop`; abra o app de novo. Se o nome da conta tem acento, **baixe a versão mais recente e instale por cima** — a atualização automática não alcança quem nunca conseguiu abrir o app. |
+| "Um arquivo do Crivo Notarial Desktop está faltando ou foi bloqueado neste computador" — ou, até a versão 0.1.53, "O serviço local encerrou inesperadamente (código 2)" já na primeira abertura | Falta uma biblioteca do banco local: o antivírus removeu ou bloqueou um arquivo do programa, ou (até a 0.1.53) o computador não tinha o Microsoft Visual C++ Redistributable, que o instalador passou a trazer junto a partir da 0.1.54 | **Baixe a versão mais recente e instale por cima**, sem desinstalar e sem apagar `%LOCALAPPDATA%/CrivoDesktop`. Se o antivírus bloquear de novo, a TI adiciona exceção para a pasta do programa. |
 | "A porta 54321 está em uso por outro programa" | Outro Crivo Desktop aberto (outro usuário Windows) ou programa técnico na porta | Feche o outro programa; "Tentar novamente". |
 | O app foi fechado à força / o computador desligou no meio | — | Basta abrir de novo: o app substitui sozinho o serviço que ficou para trás. |
-| "O serviço local encerrou inesperadamente" logo depois de uma **restauração de backup interrompida** (app fechado ou computador desligado no meio) | O app se recusa a criar um banco novo por cima dos seus dados: eles estão na pasta `%LOCALAPPDATA%\CrivoDesktop\pgdata.pre-restore-<data>` | Chame o suporte. A recuperação é renomear essa pasta de volta para `pgdata` (e `storage.pre-restore-<data>` para `storage`, se existir) e abrir o app — nada foi perdido. |
-| "Este Crivo Desktop está vinculado a outra serventia." ao entrar | Este computador já foi usado por uma conta de OUTRO cartório: o Desktop guarda os dados de um cartório só e recusa contas de outros | Entre com uma conta do cartório vinculado. Se o computador mudou de cartório de verdade, chame o suporte — a desvinculação apaga `%LOCALAPPDATA%\CrivoDesktop\org-binding.json` (e o banco local, que é do cartório anterior). |
+| "O serviço local encerrou inesperadamente" logo depois de uma **restauração de backup interrompida** (app fechado ou computador desligado no meio) | O app se recusa a criar um banco novo por cima dos seus dados: eles estão na pasta `%LOCALAPPDATA%/CrivoDesktop/pgdata.pre-restore-<data>` | Chame o suporte. A recuperação é renomear essa pasta de volta para `pgdata` (e `storage.pre-restore-<data>` para `storage`, se existir) e abrir o app — nada foi perdido. |
+| "Este Crivo Desktop está vinculado a outra serventia." ao entrar | Este computador já foi usado por uma conta de OUTRO cartório: o Desktop guarda os dados de um cartório só e recusa contas de outros | Entre com uma conta do cartório vinculado. Se o computador mudou de cartório de verdade, chame o suporte — a desvinculação apaga `%LOCALAPPDATA%/CrivoDesktop/org-binding.json` (e o banco local, que é do cartório anterior). |
 | "chrome.exe não encontrado — instale o Google Chrome no computador" | Chrome ausente (a partir da versão 0.1.11 o Desktop encontra o Chrome instalado por máquina em `Program Files` E o instalado só para o usuário, em `%LOCALAPPDATA%`) | Instale o Google Chrome; qualquer uma das duas formas de instalação serve. |
 | A janela do Google Chrome **aparece na tela** durante a emissão | O app oculta essa janela, mas só quando o computador deixa: antivírus ou política da rede bloqueando o PowerShell impedem, e o app então abre a janela como sempre abriu — a emissão não é afetada | Não feche nem mexa na janela. Se quiser a janela oculta, a TI libera o `powershell.exe` para o Crivo; o app confere de novo sozinho em até 7 dias (o suporte pode antecipar). |
 | "Aguardando login no gov.br" na certidão, ou o aviso "Para emitir a Certidão Única Sefaz/PGE-SP, entre no gov.br neste computador." no topo do Painel | Não há sessão do gov.br neste computador (primeira vez, início do expediente ou depois de uma pausa longa) ou ela expirou por inatividade; a Certidão Única só sai com o login do escrevente | Clique em **"Entrar no gov.br"** no aviso, leia o aviso do Crivo, clique em "Abrir o Chrome" e entre no gov.br na janela (seção 7, item 7). A certidão sai sozinha depois. Se aparecer "O Chrome do SIDEB está em uso pelo login ou por outra emissão. Aguarde e tente de novo.", há uma emissão ou outro login em andamento: espere e clique de novo. Se aparecer "Não foi possível abrir o Google Chrome. Confira se ele está instalado.", veja a linha do `chrome.exe` acima. |
@@ -544,7 +650,7 @@ não instala nada; a instalação continua pedindo confirmação na abertura.
 
 **Reset completo (último recurso — apaga os dados deste computador):** só
 depois de um backup bem-sucedido, feche o app e apague a pasta
-`%LOCALAPPDATA%\CrivoDesktop`. Na próxima abertura o app monta um banco vazio;
+`%LOCALAPPDATA%/CrivoDesktop`. Na próxima abertura o app monta um banco vazio;
 restaure o backup pela tela Manutenção.
 
 **O que mandar para o suporte da Crivo:** versão do app, o que estava fazendo,
@@ -561,7 +667,7 @@ novamente":
   log inteiro, sem a troca do nome da conta.
 
 Com o app aberto, o log fica em
-`%LOCALAPPDATA%\com.crivonotarial.desktop\logs\`. O log não contém CPF, nome
+`%LOCALAPPDATA%/com.crivonotarial.desktop/logs/`. O log não contém CPF, nome
 de pessoa qualificada nem conteúdo de documento. O arquivo inteiro pode conter
 caminhos de pasta do Windows, e um caminho carrega o nome da sua conta de
 usuário.
