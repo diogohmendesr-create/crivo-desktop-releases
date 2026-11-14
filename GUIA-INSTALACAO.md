@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.60** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.61** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -399,7 +399,7 @@ Code)", no item "Ajuda".
 São **duas peças**: o **conector**, uma extensão (`.mcpb`) que dá ao Claude as
 14 ferramentas do Crivo, e o **plugin** `crivo`, um `.zip` com os três roteiros
 da pasta da escritura. Passos do aplicativo do Claude para Windows
-**5.1231.2** (de 10/11/2026). Essa versão tem duas áreas, **Claude** e **Code**, escolhidas no menu "Ir"; este guia usa a
+**5.1231.2** (de 10/11/2026); a instalação do conector e do plugin foi conferida de novo na **5.11492.2**, em 13/11/2026. O aplicativo tem duas áreas, **Claude** e **Code**, escolhidas no menu "Ir"; este guia usa a
 área Claude, que é a do dia a dia. Se a sua versão mostrar outro nome de menu,
 procure a opção equivalente. A pasta da escritura exige o Crivo Desktop
 **0.1.60** ou mais novo; antes dela, o conector só consulta e emite (a partir
@@ -423,10 +423,11 @@ app).
 4. **Conector (passo 3 da tela).** Clique em **"Baixar conector (.mcpb)"**. O
    navegador padrão do Windows abre e o arquivo
    `CrivoDesktop-claude-connector.mcpb` vai para a pasta Downloads. No Claude:
-   **Configurações → Extensões** → no menu da tela de Extensões, **"Instalar
-   extensão…"** → escolha o arquivo (a tela também aceita arrastar o arquivo
-   para ela). Confira o nome **"Crivo Notarial Desktop"** e clique em
-   **"Instalar"**. Cole a chave no campo **"Chave de pareamento do Crivo
+   **Configurações → Extensões → "Configurações avançadas"** → **"Instalar
+   extensão"** → escolha o arquivo (a tela de Extensões também aceita arrastar
+   o arquivo para ela). Confira o nome **"Crivo Notarial Desktop"** e clique em
+   **"Instalar"**; se o conector já estava instalado, o botão se chama
+   **"Atualizar"**, e a extensão continua ligada, com a chave. Cole a chave no campo **"Chave de pareamento do Crivo
    Desktop"** e salve. A extensão é instalada **desligada**: ligue-a na tela
    dela.
 5. **Plugin (passo 3 da tela).** Clique em **"Baixar plugin (.zip)"**; o
