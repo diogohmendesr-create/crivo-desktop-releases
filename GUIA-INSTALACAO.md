@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.61** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.62** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -383,9 +383,9 @@ Se o cartório usa o **aplicativo do Claude** (da Anthropic) para redigir, dá
 para ligá-lo ao Crivo Desktop: o Claude passa a consultar as qualificações e
 as certidões, a emitir só as que faltam e a trabalhar na **pasta da
 escritura**, a pasta do computador com os documentos do ato: envia os
-documentos para a leitura do Crivo, organiza os nomes dos arquivos e salva na
-pasta os PDFs das certidões. O conector só fala com o Crivo Desktop desta
-máquina. Os documentos enviados para a leitura seguem o mesmo caminho de
+documentos para a leitura do Crivo, organiza os nomes dos arquivos, salva na
+pasta os PDFs das certidões e grava um rascunho da escritura em Word. O
+conector só fala com o Crivo Desktop desta máquina. Os documentos enviados para a leitura seguem o mesmo caminho de
 quando são enviados pela tela do Crivo, e a leitura **consome créditos do
 cartório**, como pela tela; cada emissão também consome. A conferência da
 leitura, as pendências e as decisões continuam na tela do Crivo Desktop. O que
@@ -397,14 +397,15 @@ dia a dia está no manual do app, capítulo "Conector para o Claude (Desktop e
 Code)", no item "Ajuda".
 
 São **duas peças**: o **conector**, uma extensão (`.mcpb`) que dá ao Claude as
-14 ferramentas do Crivo, e o **plugin** `crivo`, um `.zip` com os três roteiros
+15 ferramentas do Crivo, e o **plugin** `crivo`, um `.zip` com os quatro roteiros
 da pasta da escritura. Passos do aplicativo do Claude para Windows
 **5.1231.2** (de 10/11/2026); a instalação do conector e do plugin foi conferida de novo na **5.11492.2**, em 13/11/2026. O aplicativo tem duas áreas, **Claude** e **Code**, escolhidas no menu "Ir"; este guia usa a
 área Claude, que é a do dia a dia. Se a sua versão mostrar outro nome de menu,
 procure a opção equivalente. A pasta da escritura exige o Crivo Desktop
 **0.1.60** ou mais novo; antes dela, o conector só consulta e emite (a partir
 da 0.1.55; nas versões 0.1.47 a 0.1.54 o conector não existia — atualize o
-app).
+app). O rascunho da escritura em Word, com o quarto roteiro, exige a **0.1.62**
+ou mais nova.
 
 1. **Remova a extensão antiga.** Se o Claude tem a extensão **"Crivo
    Certidões"**, desinstale-a pelo menu dela, em **Configurações →
@@ -436,13 +437,13 @@ app).
    upload de plugin"** → escolha o arquivo. A tela de envio mostra o nome e a
    descrição do plugin e avisa "Só faça upload de plugins em que você confia,
    porque a Anthropic não controla o que eles fazem."; confirme. O plugin
-   aparece em **"Seus plugins"** como **"Crivo"**, "Por você", com os três
-   roteiros (`abrir-escritura`, `organizar-pasta` e `certidoes-da-escritura`),
-   a nota "Este plugin não inclui nenhum conector" e o selo "Apenas adiciona
+   aparece em **"Seus plugins"** como **"Crivo"**, "Por você", com os quatro
+   roteiros (`abrir-escritura`, `organizar-pasta`, `certidoes-da-escritura` e
+   `rascunhar-escritura`), a nota "Este plugin não inclui nenhum conector" e o selo "Apenas adiciona
    instruções para o Claude". O conector aparece na mesma página como
    extensão para desktop: são as duas peças. Um envio do plugin vale para as
    duas áreas do aplicativo e carrega numa conversa nova, sem reiniciar.
-6. **Permissões das 14 ferramentas.** Na área Claude, com a conversa no modo
+6. **Permissões das 15 ferramentas.** Na área Claude, com a conversa no modo
    de permissão **"Manual"**, o Claude pede aprovação num cartão antes de cada
    ferramenta, com **"Recusar"**, **"Sempre permitir"** e **"Permitir uma
    vez"**. O cartão mostra o nome técnico da ferramenta (a busca de pessoa
@@ -454,16 +455,17 @@ app).
      (ler uma certidão), `get_emission_status` (acompanhar emissões),
      `open_folder` (abrir a pasta da escritura, sem enviar nada) e
      `get_reading_status` (acompanhar a leitura).
-   - **Gravação (4) — sempre "Permitir uma vez", nunca "Sempre permitir":**
+   - **Gravação (5) — sempre "Permitir uma vez", nunca "Sempre permitir":**
      `create_minuta_from_folder` (envia a pasta para a leitura; consome
      créditos), `emit_certidoes` (emite certidões; consome créditos),
-     `rename_files` (renomeia documentos da pasta) e `save_certidao_pdf`
-     (salva PDFs na subpasta `Certidões`). Assim cada envio, cada emissão e
-     cada mudança na pasta do cartório passam pelo seu OK. Se uma delas ficou
+     `rename_files` (renomeia documentos da pasta), `save_certidao_pdf`
+     (salva PDFs na subpasta `Certidões`) e `write_docx` (grava o rascunho
+     da escritura em Word na subpasta `Crivo`). Assim cada envio, cada
+     emissão e cada mudança na pasta do cartório passam pelo seu OK. Se uma delas ficou
      liberada por engano, volte-a a pedir aprovação nas configurações da
      extensão. Se não achar onde mudar, clique em **"Revogar"** na Manutenção
      do Crivo Desktop: o Claude para de alcançar o Crivo (e, com isso, de
-     renomear e de salvar na pasta) até você gerar uma chave nova e colá-la na
+     renomear, de salvar e de gravar rascunho na pasta) até você gerar uma chave nova e colá-la na
      extensão. **Atenção:** "Revogar" só corta a
      conexão e não desfaz o "Sempre permitir" que ficou marcado no Claude.
      Depois de colar a chave nova, confira se a ferramenta voltou a pedir
@@ -491,14 +493,38 @@ app).
    assim vai para a Anthropic pela conta do cartório); as ferramentas do Crivo
    leem a pasta pelo conector e não dependem dele.
 
-**O que o conector grava na pasta da escritura.** Só duas subpastas: `.crivo`,
+**O que o conector grava na pasta da escritura.** Só três subpastas: `.crivo`,
 com o controle do Crivo (a minuta a que a pasta está ligada e o que já foi
-enviado; não apague, salvo para recomeçar a pasta, como o manual explica) e
-`Certidões`, com os PDFs salvos. Fora delas, só muda o nome dos arquivos que o
-Titular aprovar, e nunca apaga nem sobrescreve arquivo do cartório. Aceita a
+enviado; não apague, salvo para recomeçar a pasta, como o manual explica);
+`Certidões`, com os PDFs salvos; e `Crivo` (sem o ponto no começo), com os
+rascunhos da escritura em Word e os modelos que o cartório deixar ali. Fora
+delas, só muda o nome dos arquivos que o Titular aprovar, e nunca apaga nem sobrescreve arquivo do cartório. Aceita a
 pasta deste computador ou de uma unidade de rede mapeada por letra (como Z:);
 caminho de rede que começa com duas barras é recusado. Renomear não funciona
 em pendrive ou cartão de memória (formatos FAT e exFAT).
+
+**Rascunho da escritura em Word (a partir da 0.1.62).** O roteiro
+`rascunhar-escritura` grava na subpasta `Crivo` um arquivo
+`RASCUNHO - <nome da minuta> - <data>.docx`, que abre com um aviso de que é
+rascunho e deixa como `[[FALTA]]`, realçado em amarelo, o que os documentos e o
+usuário não informaram. Nunca sobrescreve (um nome já ocupado ganha ` (2)` a
+` (9)`), não consome créditos e só grava depois do "sim" do usuário. Estado
+civil, regime de bens e meação só vêm do PDF da qualificação que a tela da
+minuta exporta ("Exportar PDF") e que o usuário anexa à conversa; sem ele, ficam
+como `[[FALTA]]`. Para o rascunho sair com a página, as margens, o cabeçalho, o
+rodapé e os estilos do cartório, deixe na subpasta `Crivo` um arquivo `.docx` do
+cartório cujo nome não comece por RASCUNHO; o texto do corpo do modelo não entra
+no rascunho, mas o resto do arquivo do modelo (propriedades do documento,
+comentários e notas) continua dentro do rascunho: use um documento só com o
+timbrado, não uma escritura antiga. O conector recusa o modelo, sem gravar nada,
+em quatro casos: o arquivo não é um `.docx` válido; é grande demais; tem macros;
+ou tem conteúdo que o Word atualiza ou busca sozinho (um campo que não seja
+número de página, data, propriedades do documento ou referência cruzada, mala
+direta, objeto embutido ou ligação com algo fora do arquivo, o que inclui o
+documento ainda ligado a um modelo próprio do Office, o `.dotx`). Em qualquer um
+deles o Claude oferece gravar sem modelo. O detalhe e o que fazer em cada caso
+estão no manual do app, capítulo "Conector para o Claude (Desktop e Code)",
+seção "O modelo do cartório para o rascunho".
 
 **A sessão precisa estar ativa.** A chave só funciona neste computador, com o
 Crivo Desktop **aberto e logado com a conta do Titular** que a gerou. Por
@@ -522,14 +548,14 @@ pareado"). Para tirar o plugin: página **"Plugins"**, menu da linha do
 desfeita") e responde "Plugin removido". **"Desativar"**, no mesmo menu, só
 desliga. Para tirar o conector, desinstale a extensão "Crivo Notarial Desktop"
 pelo menu dela, na tela de Extensões. Nada disso mexe nas pastas das
-escrituras: as subpastas `.crivo` e `Certidões` ficam como estão.
+escrituras: as subpastas `.crivo`, `Certidões` e `Crivo` ficam como estão.
 
 ## 8.2 Conector para o Claude Code (terminal) — opcional, Titular
 
 O **Claude Code** é o Claude que trabalha no terminal do Windows. O mesmo
 conector funciona nele, pelo programa `crivo-mcp.exe`, que vem junto com o
 Crivo Desktop a partir da versão 0.1.59 (as ferramentas da pasta da escritura,
-a partir da 0.1.60). Vale tudo o que a seção 8.1 diz sobre a conta Claude do
+a partir da 0.1.60; o rascunho em Word, a partir da 0.1.62). Vale tudo o que a seção 8.1 diz sobre a conta Claude do
 cartório, a sessão de 8 horas e os créditos. Antes de começar, o Claude Code
 precisa estar instalado neste computador (o comando `claude` responde no
 terminal).
@@ -575,14 +601,16 @@ cartório usa o Claude Code no terminal.
    reconecte o conector com `/mcp` ou abra outra sessão.
 
 **Roteiros no terminal.** O plugin da seção 8.1 não é instalado no terminal:
-os três roteiros da pasta da escritura chegam como modelos de pedido do
+os quatro roteiros da pasta da escritura chegam como modelos de pedido do
 próprio conector, com o mesmo texto (os comandos `/mcp__crivo__abrir_escritura`,
-`/mcp__crivo__organizar_pasta` e `/mcp__crivo__certidoes_da_escritura`).
+`/mcp__crivo__organizar_pasta`, `/mcp__crivo__certidoes_da_escritura` e
+`/mcp__crivo__rascunhar_escritura`).
 
 **Créditos e pasta do cartório.** O Claude Code pergunta antes de usar cada
-ferramenta. Para as quatro que gravam — `create_minuta_from_folder` (a leitura
+ferramenta. Para as cinco que gravam — `create_minuta_from_folder` (a leitura
 consome créditos), `emit_certidoes` (cada emissão consome créditos),
-`rename_files` e `save_certidao_pdf` (mexem na pasta do cartório) —
+`rename_files`, `save_certidao_pdf` e `write_docx` (mexem na pasta do
+cartório) —
 **nunca** escolha a opção que libera para sempre: aprovar uma a uma é o que
 garante que nenhum crédito sai e nenhum arquivo muda sem você ver. Na área
 Code do aplicativo, o modo "Automático" decide sozinho e não pergunta: use o
