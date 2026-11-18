@@ -1,7 +1,7 @@
 # Guia de instalação do Crivo Notarial Desktop no cartório
 
 Para o escrevente e o Titular da serventia. Versão de referência: **Crivo
-Notarial Desktop 0.1.63** (canal `desktop`). Tudo o que está aqui descreve o que
+Notarial Desktop 0.1.64** (canal `desktop`). Tudo o que está aqui descreve o que
 o aplicativo faz hoje — telas, mensagens e limites vêm do próprio produto
 (ADR-0070/0071/0072 e `docs/desktop/gateway-local.md`).
 
@@ -447,7 +447,16 @@ ou mais nova.
    de permissão **"Manual"**, o Claude pede aprovação num cartão antes de cada
    ferramenta, com **"Recusar"**, **"Sempre permitir"** e **"Permitir uma
    vez"**. O cartão mostra o nome técnico da ferramenta (a busca de pessoa
-   apareceu como "Search subject").
+   apareceu como "Search subject"). **O cartão só aparece no modo "Manual".**
+   O seletor **"Modo de permissão"** fica logo abaixo da caixa de mensagem, ao
+   lado do nome do modelo, com **"Manual"** e **"Auto"**, e o aplicativo
+   passou a abrir as conversas em **"Auto"** (conferido na versão 5.11492.5).
+   Nesse modo, segundo a própria tela de permissões do Claude, uma
+   verificação automática barra o que julgar arriscado, mas no resto o
+   Claude pode agir sem perguntar, mesmo nas ferramentas em **"Requer
+   aprovação"**. Em toda conversa com o Crivo, escolha **"Manual"** antes do
+   primeiro pedido. Os roteiros continuam pedindo o *sim* no chat antes de
+   gravar; o cartão é a segunda confirmação, e ela só existe no "Manual".
    - **Consultas (10) — podem ficar em "Sempre permitir"**, para não confirmar
      cada uma: `crivo_status` (estado do Crivo Desktop), `search_subject`
      (buscar pessoa), `get_subject` (qualificação completa), `list_minutas`,
@@ -462,8 +471,9 @@ ou mais nova.
      (salva PDFs na subpasta `Certidões`) e `write_docx` (grava o rascunho
      da escritura em Word na subpasta `Crivo`). Assim cada envio, cada
      emissão e cada mudança na pasta do cartório passam pelo seu OK. Se uma delas ficou
-     liberada por engano, volte-a a pedir aprovação nas configurações da
-     extensão. Se não achar onde mudar, clique em **"Revogar"** na Manutenção
+     liberada por engano, volte-a para **"Requer aprovação"** no Claude:
+     **"Configurações"** → **"Extensões"** → **"Configurar"**, na linha do
+     Crivo, e a lista **"Permissões de ferramentas"**. Se não achar onde mudar, clique em **"Revogar"** na Manutenção
      do Crivo Desktop: o Claude para de alcançar o Crivo (e, com isso, de
      renomear, de salvar e de gravar rascunho na pasta) até você gerar uma chave nova e colá-la na
      extensão. **Atenção:** "Revogar" só corta a
